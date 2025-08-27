@@ -1,0 +1,83 @@
+__version__ = "0.1.0"
+__author__ = "Devo Team"
+__email__ = "support@devotel.io"
+
+from .client import DevoClient
+from .exceptions import (  # Base exceptions; HTTP-related exceptions; Business logic exceptions; Network exceptions; Configuration exceptions
+    DevoAPIException,
+    DevoAuthenticationException,
+    DevoBadGatewayException,
+    DevoBadRequestException,
+    DevoChannelNotEnabledException,
+    DevoConfigurationException,
+    DevoConflictException,
+    DevoConnectionException,
+    DevoContactNotFoundException,
+    DevoDNSException,
+    DevoException,
+    DevoForbiddenException,
+    DevoGatewayTimeoutException,
+    DevoInsufficientCreditsException,
+    DevoInternalServerException,
+    DevoInvalidAPIKeyException,
+    DevoInvalidConfigurationException,
+    DevoInvalidEmailException,
+    DevoInvalidPhoneNumberException,
+    DevoMessageNotFoundException,
+    DevoMessageTooLongException,
+    DevoMethodNotAllowedException,
+    DevoMissingAPIKeyException,
+    DevoNetworkException,
+    DevoNotFoundException,
+    DevoRateLimitException,
+    DevoServiceUnavailableException,
+    DevoSSLException,
+    DevoTemplateNotFoundException,
+    DevoTimeoutException,
+    DevoUnprocessableEntityException,
+    DevoUnsupportedChannelException,
+    DevoValidationException,
+)
+
+__all__ = [
+    "DevoClient",
+    # Base exceptions
+    "DevoException",
+    "DevoAPIException",
+    # HTTP-related exceptions
+    "DevoBadRequestException",
+    "DevoAuthenticationException",
+    "DevoForbiddenException",
+    "DevoNotFoundException",
+    "DevoMethodNotAllowedException",
+    "DevoConflictException",
+    "DevoUnprocessableEntityException",
+    "DevoRateLimitException",
+    "DevoInternalServerException",
+    "DevoBadGatewayException",
+    "DevoServiceUnavailableException",
+    "DevoGatewayTimeoutException",
+    # Business logic exceptions
+    "DevoValidationException",
+    "DevoInvalidPhoneNumberException",
+    "DevoInvalidEmailException",
+    "DevoTemplateNotFoundException",
+    "DevoContactNotFoundException",
+    "DevoMessageNotFoundException",
+    "DevoInsufficientCreditsException",
+    "DevoMessageTooLongException",
+    "DevoUnsupportedChannelException",
+    "DevoChannelNotEnabledException",
+    # Network exceptions
+    "DevoNetworkException",
+    "DevoTimeoutException",
+    "DevoConnectionException",
+    "DevoDNSException",
+    "DevoSSLException",
+    # Configuration exceptions
+    "DevoConfigurationException",
+    "DevoMissingAPIKeyException",
+    "DevoInvalidAPIKeyException",
+    "DevoInvalidConfigurationException",
+    "__version__",
+]

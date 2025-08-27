@@ -1,0 +1,156 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "devo-global-comms-python"
+version = "0.1.0"
+description = "Python SDK for Devo Global Communications API"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    { name = "Devo Team", email = "support@devo.com" },
+]
+keywords = ["api", "communication", "sms", "email", "whatsapp", "rcs"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Communications",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "requests>=2.25.0",
+    "pydantic>=1.8.0,<3.0.0",
+    "typing-extensions>=4.0.0; python_version<'3.11'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.10",
+    "pytest-mock>=3.6",
+    "black>=22.0",
+    "isort>=5.10",
+    "flake8>=4.0",
+    "mypy>=0.910",
+    "pre-commit>=2.15",
+]
+docs = [
+    "mkdocs>=1.4",
+    "mkdocs-material>=8.0",
+    "mkdocstrings[python]>=0.18",
+]
+
+[project.urls]
+Homepage = "https://github.com/devotel/devo-global-comms-python"
+Documentation = "https://devo-global-comms-python.readthedocs.io"
+Repository = "https://github.com/devotel/devo-global-comms-python"
+Issues = "https://github.com/devotel/devo-global-comms-python/issues"
+
+[tool.hatch.version]
+path = "src/devo_global_comms_python/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/devo_global_comms_python"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=src/devo_global_comms_python",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow tests",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
