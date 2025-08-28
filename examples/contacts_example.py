@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
 import os
 
-from devo_global_comms_python import DevoException
+from devo_global_comms_python import DevoClient
+from devo_global_comms_python.exceptions import DevoException
 
 
 def main():
@@ -92,12 +94,42 @@ def main():
     print("📊 CONTACTS EXAMPLE SUMMARY")
     print("-" * 30)
     print("⚠️  This is a placeholder example for Contacts functionality.")
-    print("💡 To implement:")
-    print("   1. Define Contacts API endpoints and specifications")
-    print("   2. Create Contact Pydantic models")
-    print("   3. Implement ContactsResource class")
-    print("   4. Update this example with real functionality")
-    print("   5. Add support for CRUD operations and contact management")
+    client = DevoClient(api_key=api_key)
+
+    print("� Devo Global Communications - Contacts Management Example")
+    print("=" * 70)
+    print("📋 Using services namespace: client.services.contacts")
+    print()
+
+    # Example 1: List existing contacts
+    print("\n📋 Listing existing contacts...")
+    try:
+        contacts_list = client.services.contacts.list(page=1, limit=5)
+        print(f"✅ Found {contacts_list.total} total contacts")
+        print(f"   Page: {contacts_list.page}/{contacts_list.total_pages}")
+        print(f"   Showing: {len(contacts_list.contacts)} contacts")
+
+        for i, contact in enumerate(contacts_list.contacts, 1):
+            print(f"   {i}. 👤 {contact.first_name or ''} {contact.last_name or ''}".strip())
+            print(f"      ID: {contact.id}")
+            if contact.email:
+                print(f"      📧 Email: {contact.email}")
+            if contact.phone_number:
+                print(f"      📱 Phone: {contact.phone_number}")
+            if contact.created_at:
+                print(f"      📅 Created: {contact.created_at}")
+
+    except Exception as e:
+        print(f"❌ Error listing contacts: {str(e)}")
+
+    print("\n🎯 Contacts management demo completed!")
+    print("\nKey Features Available:")
+    print("• ✅ List contacts with advanced filtering")
+    print("• ✅ Create and update contacts")
+    print("• ✅ Contact group assignment/unassignment")
+    print("• ✅ Custom field management")
+    print("• ✅ CSV import functionality")
+    print("• ✅ Bulk operations")
 
 
 if __name__ == "__main__":

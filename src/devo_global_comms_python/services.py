@@ -7,6 +7,7 @@ such as contact management, contact groups, and other data management services.
 from typing import TYPE_CHECKING
 
 from .resources.contact_groups import ContactGroupsResource
+from .resources.contacts import ContactsResource
 
 if TYPE_CHECKING:
     from .client import DevoClient
@@ -24,7 +25,7 @@ class ServicesNamespace:
         >>> client = DevoClient(api_key="your-api-key")
         >>> # Access contact groups through services namespace
         >>> groups = client.services.contact_groups.list()
-        >>> # Future: contacts, templates, analytics, etc.
+        >>> # Access contacts through services namespace
         >>> contacts = client.services.contacts.list()
     """
 
@@ -39,9 +40,9 @@ class ServicesNamespace:
 
         # Initialize service resources
         self.contact_groups = ContactGroupsResource(client)
+        self.contacts = ContactsResource(client)
 
         # Future service resources will be added here:
-        # self.contacts = ContactsResource(client)
         # self.templates = TemplatesResource(client)
         # self.analytics = AnalyticsResource(client)
         # etc.
