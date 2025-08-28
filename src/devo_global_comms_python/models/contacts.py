@@ -9,7 +9,7 @@ class Contact(BaseModel):
     Contact model representing a contact in the Devo Global Communications API.
     """
 
-    id: str = Field(..., description="Unique identifier for the contact")
+    id: str = Field(description="Unique identifier for the contact")
     account_id: Optional[str] = Field(None, description="Account identifier")
     user_id: Optional[str] = Field(None, description="User identifier")
     phone_number: Optional[str] = Field(None, description="Contact phone number in E.164 format")
@@ -160,7 +160,7 @@ class DeleteContactsDto(BaseModel):
     Data transfer object for deleting contacts.
     """
 
-    contact_ids: List[str] = Field(..., min_items=1, description="List of contact IDs to delete")
+    contact_ids: List[str] = Field(description="List of contact IDs to delete", min_length=1)
 
     @validator("contact_ids")
     def validate_contact_ids(cls, v):
@@ -175,8 +175,8 @@ class AssignToContactsGroupDto(BaseModel):
     Data transfer object for assigning/unassigning contacts to/from groups.
     """
 
-    contact_ids: List[str] = Field(..., min_items=1, description="List of contact IDs")
-    contacts_group_id: str = Field(..., description="Contact group ID")
+    contact_ids: List[str] = Field(description="List of contact IDs", min_length=1)
+    contacts_group_id: str = Field(description="Contact group ID")
 
     @validator("contact_ids")
     def validate_contact_ids(cls, v):
@@ -198,7 +198,7 @@ class CreateContactsFromCsvDto(BaseModel):
     Data transfer object for importing contacts from CSV.
     """
 
-    csv_data: str = Field(..., description="CSV data as string")
+    csv_data: str = Field(description="CSV data as string")
     contacts_group_id: Optional[str] = Field(None, description="Contact group ID to assign imported contacts")
     skip_duplicates: Optional[bool] = Field(True, description="Skip duplicate contacts")
     update_existing: Optional[bool] = Field(False, description="Update existing contacts")
@@ -216,10 +216,10 @@ class CreateContactsFromCsvRespDto(BaseModel):
     Response data transfer object for CSV import operation.
     """
 
-    total_processed: int = Field(..., description="Total number of contacts processed")
-    successfully_created: int = Field(..., description="Number of contacts successfully created")
-    skipped_duplicates: int = Field(..., description="Number of duplicate contacts skipped")
-    failed_imports: int = Field(..., description="Number of failed imports")
+    total_processed: int = Field(description="Total number of contacts processed")
+    successfully_created: int = Field(description="Number of contacts successfully created")
+    skipped_duplicates: int = Field(description="Number of duplicate contacts skipped")
+    failed_imports: int = Field(description="Number of failed imports")
     errors: Optional[List[str]] = Field(None, description="List of error messages")
 
 
@@ -228,11 +228,11 @@ class GetContactsSerializer(BaseModel):
     Serializer for paginated contacts list response.
     """
 
-    contacts: List[ContactSerializer] = Field(..., description="List of contacts")
-    total: int = Field(..., description="Total number of contacts")
-    page: int = Field(..., description="Current page number")
-    limit: int = Field(..., description="Number of contacts per page")
-    total_pages: int = Field(..., description="Total number of pages")
+    contacts: List[ContactSerializer] = Field(description="List of contacts")
+    total: int = Field(description="Total number of contacts")
+    page: int = Field(description="Current page number")
+    limit: int = Field(description="Number of contacts per page")
+    total_pages: int = Field(description="Total number of pages")
 
     @validator("page")
     def validate_page(cls, v):
@@ -255,9 +255,9 @@ class CustomField(BaseModel):
     Custom field model.
     """
 
-    id: str = Field(..., description="Unique identifier for the custom field")
-    name: str = Field(..., description="Custom field name")
-    field_type: str = Field(..., description="Field type (text, number, date, boolean, etc.)")
+    id: str = Field(description="Unique identifier for the custom field")
+    name: str = Field(description="Custom field name")
+    field_type: str = Field(description="Field type (text, number, date, boolean, etc.)")
     description: Optional[str] = Field(None, description="Custom field description")
     is_required: Optional[bool] = Field(False, description="Whether the field is required")
     default_value: Optional[Any] = Field(None, description="Default value for the field")
@@ -280,8 +280,8 @@ class CreateCustomFieldDto(BaseModel):
     Data transfer object for creating a custom field.
     """
 
-    name: str = Field(..., description="Custom field name")
-    field_type: str = Field(..., description="Field type (text, number, date, boolean, etc.)")
+    name: str = Field(description="Custom field name")
+    field_type: str = Field(description="Field type (text, number, date, boolean, etc.)")
     description: Optional[str] = Field(None, description="Custom field description")
     is_required: Optional[bool] = Field(False, description="Whether the field is required")
     default_value: Optional[Any] = Field(None, description="Default value for the field")
@@ -337,11 +337,11 @@ class GetCustomFieldsSerializer(BaseModel):
     Serializer for paginated custom fields list response.
     """
 
-    custom_fields: List[CustomFieldSerializer] = Field(..., description="List of custom fields")
-    total: int = Field(..., description="Total number of custom fields")
-    page: int = Field(..., description="Current page number")
-    limit: int = Field(..., description="Number of custom fields per page")
-    total_pages: int = Field(..., description="Total number of pages")
+    custom_fields: List[CustomFieldSerializer] = Field(description="List of custom fields")
+    total: int = Field(description="Total number of custom fields")
+    page: int = Field(description="Current page number")
+    limit: int = Field(description="Number of custom fields per page")
+    total_pages: int = Field(description="Total number of pages")
 
     @validator("page")
     def validate_page(cls, v):
@@ -363,7 +363,7 @@ class CommonDeleteDto(BaseModel):
     Common data transfer object for delete operations.
     """
 
-    ids: List[str] = Field(..., min_items=1, description="List of IDs to delete")
+    ids: List[str] = Field(description="List of IDs to delete", min_length=1)
 
     @validator("ids")
     def validate_ids(cls, v):
