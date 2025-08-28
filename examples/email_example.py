@@ -1,6 +1,6 @@
 import os
 
-from devo_global_comms_python import DevoException
+from devo_global_comms_python import DevoCommsClient, DevoException
 
 
 def main():
@@ -9,42 +9,72 @@ def main():
         print("❌ Please set DEVO_API_KEY environment variable")
         return
 
+    client = DevoCommsClient(api_key=api_key)
     print("✅ Devo Email Client initialized successfully")
     print("=" * 60)
 
     try:
-        # Example 1: Send a simple email
+        # Example: Send an email using the Email API
         print("📧 EMAIL SEND EXAMPLE")
         print("-" * 30)
 
         print("📤 Sending email...")
-        print("⚠️  This is a placeholder implementation.")
-        print("   Update this example when Email API is implemented.")
+        email_response = client.email.send_email(
+            subject="Test Email from Devo SDK",
+            body="This is a test email sent using the Devo Global Communications Python SDK.",
+            sender="sender@example.com",
+            recipient="recipient@example.com",
+        )
 
-        # Placeholder email send - update when implementing Email resource
-        print("   ```python")
-        print("   email_response = client.email.send(")
-        print("       to='recipient@example.com',")
-        print("       subject='Test Email from Devo SDK',")
-        print("       body='This is a test email.',")
-        print("       html_body='<h1>Test</h1><p>This is a test email.</p>',")
-        print("       from_email='sender@yourdomain.com'")
-        print("   )")
-        print("   print(f'Email sent! ID: {email_response.id}')")
-        print("   ```")
+        print("✅ Email sent successfully!")
+        print(f"   📧 Message ID: {email_response.message_id}")
+        print(f"   📦 Bulk Email ID: {email_response.bulk_email_id}")
+        print(f"   📝 Subject: {email_response.subject}")
+        print(f"   📊 Status: {email_response.status}")
+        print(f"   💬 Message: {email_response.message}")
+        print(f"   🕐 Timestamp: {email_response.timestamp}")
+        print(f"   ✅ Success: {email_response.success}")
+
+        # Example with different content
+        print("\n📧 SENDING EMAIL WITH RICH CONTENT")
+        print("-" * 40)
+
+        rich_email_response = client.email.send_email(
+            subject="🎉 Welcome to Devo Communications!",
+            body=(
+                "Dear valued customer,\n\n"
+                "Welcome to our service! We're excited to have you on board.\n\n"
+                "Best regards,\nThe Devo Team"
+            ),
+            sender="welcome@yourcompany.com",
+            recipient="newcustomer@example.com",
+        )
+
+        print("✅ Rich content email sent!")
+        print(f"   📧 Message ID: {rich_email_response.message_id}")
+        print(f"   📊 Status: {rich_email_response.status}")
+        print(f"   ✅ Success: {rich_email_response.success}")
 
     except DevoException as e:
         print(f"❌ Email operation failed: {e}")
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}")
 
     print("\n" + "=" * 60)
     print("📊 EMAIL EXAMPLE SUMMARY")
     print("-" * 30)
-    print("⚠️  This is a placeholder example for Email functionality.")
-    print("💡 To implement:")
-    print("   1. Define Email API endpoints and specifications")
-    print("   2. Create Email Pydantic models")
-    print("   3. Implement EmailResource class")
-    print("   4. Update this example with real functionality")
+    print("✅ Email API implementation complete!")
+    print("📤 Successfully demonstrated:")
+    print("   • Basic email sending")
+    print("   • Email with rich content and emojis")
+    print("   • Response parsing and status checking")
+    print("   • Error handling")
+    print("\n💡 Features available:")
+    print("   • Subject and body content")
+    print("   • Sender and recipient validation")
+    print("   • Message tracking with unique IDs")
+    print("   • Status monitoring")
+    print("   • Timestamp tracking")
 
 
 if __name__ == "__main__":
