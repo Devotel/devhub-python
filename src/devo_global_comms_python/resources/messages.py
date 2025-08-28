@@ -1,19 +1,82 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
-from ..utils import validate_required_string
+from ..utils import validate_required_string, validate_response
 from .base import BaseResource
 
 if TYPE_CHECKING:
-    from ..models.messages import Message
+    from ..models.messages import Message, SendMessageDto, SendMessageSerializer
 
 
 class MessagesResource(BaseResource):
     """
     Unified messages resource for managing messages across all channels.
 
-    This resource provides a unified interface to view and manage messages
-    sent through any channel (SMS, Email, WhatsApp, RCS).
+    This resource provides a unified interface to send, view and manage messages
+    across any channel (SMS, Email, WhatsApp, RCS).
     """
+
+    def send(self, data: "SendMessageDto") -> "SendMessageSerializer":
+        """
+        Send a message through any channel (omni-channel endpoint).
+
+        This unified endpoint allows sending messages through SMS, Email,
+        WhatsApp, or RCS channels using channel-specific payloads.
+
+        Args:
+            data: SendMessageDto containing channel, recipient, and payload
+
+        Returns:
+            SendMessageSerializer with sent message details
+
+        Example:
+            # Send SMS
+            from ..models.messages import SendMessageDto
+
+            sms_data = SendMessageDto(
+                channel="sms",
+                to="+1234567890",
+                payload={"text": "Hello World"}
+            )
+            message = client.messages.send(sms_data)
+
+            # Send Email
+            email_data = SendMessageDto(
+                channel="email",
+                to="user@example.com",
+                payload={
+                    "subject": "Test Email",
+                    "text": "Hello World",
+                    "html": "<h1>Hello World</h1>"
+                }
+            )
+            message = client.messages.send(email_data)
+
+            # Send WhatsApp
+            whatsapp_data = SendMessageDto(
+                channel="whatsapp",
+                to="+1234567890",
+                payload={
+                    "type": "text",
+                    "text": {"body": "Hello World"}
+                }
+            )
+            message = client.messages.send(whatsapp_data)
+
+            # Send RCS
+            rcs_data = SendMessageDto(
+                channel="rcs",
+                to="+1234567890",
+                payload={
+                    "message_type": "text",
+                    "text": "Hello World"
+                }
+            )
+            message = client.messages.send(rcs_data)
+        """
+        from ..models.messages import SendMessageSerializer
+
+        response = self.client.post("messages/send", data=data.model_dump(by_alias=True, exclude_none=True))
+        return validate_response(response, SendMessageSerializer)
 
     def get(self, message_id: str) -> "Message":
         """

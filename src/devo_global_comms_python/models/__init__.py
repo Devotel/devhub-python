@@ -1,6 +1,6 @@
 from .contacts import Contact
 from .email import EmailMessage
-from .messages import Message
+from .messages import Message, SendMessageDto, SendMessageSerializer
 from .rcs import RCSMessage
 from .sms import (
     AvailableNumbersResponse,
@@ -26,6 +26,9 @@ __all__ = [
     "RCSMessage",
     "Contact",
     "Message",
+    # Omni-channel messaging models
+    "SendMessageDto",
+    "SendMessageSerializer",
     # New SMS API models
     "SMSQuickSendRequest",
     "SMSQuickSendResponse",
