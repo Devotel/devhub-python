@@ -3,6 +3,7 @@ from unittest.mock import Mock
 
 import pytest
 
+from src.devo_global_comms_python import DevoClient
 from src.devo_global_comms_python.models.contact_groups import (
     ContactsGroup,
     ContactsGroupListResponse,
@@ -496,3 +497,28 @@ class TestContactsGroupListResponse:
         assert response.total == 0
         assert response.page == 1
         assert response.total_pages == 0
+
+
+class TestServicesNamespace:
+    """Test cases for the services namespace integration."""
+
+    def setup_method(self):
+        """Set up test fixtures."""
+        self.client = DevoClient(api_key="test_api_key")
+
+    def test_services_namespace_exists(self):
+        """Test that services namespace is available."""
+        assert hasattr(self.client, "services")
+        assert self.client.services is not None
+
+    def test_contact_groups_available_via_services(self):
+        """Test that contact groups is available via services namespace."""
+        assert hasattr(self.client.services, "contact_groups")
+        assert self.client.services.contact_groups is not None
+        assert isinstance(self.client.services.contact_groups, ContactGroupsResource)
+
+    def test_services_namespace_string_representation(self):
+        """Test string representation of services namespace."""
+        services_repr = repr(self.client.services)
+        assert "ServicesNamespace" in services_repr
+        assert "DevoClient" in services_repr

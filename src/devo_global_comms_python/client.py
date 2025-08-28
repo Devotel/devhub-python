@@ -6,44 +6,46 @@ from urllib3.util.retry import Retry
 
 from .auth import APIKeyAuth
 from .exceptions import DevoAPIException, DevoAuthenticationException, DevoException, DevoMissingAPIKeyException
-from .resources.contact_groups import ContactGroupsResource
 from .resources.contacts import ContactsResource
 from .resources.email import EmailResource
 from .resources.messages import MessagesResource
 from .resources.rcs import RCSResource
 from .resources.sms import SMSResource
 from .resources.whatsapp import WhatsAppResource
+from .services import ServicesNamespace
 
 
 class DevoClient:
     """
     Main client for interacting with the Devo Global Communications API.
 
-    This client follows a resource-based pattern,
-    where each communication channel (SMS, Email, etc.) is accessed as a
-    resource with its own methods.
+    This client follows a resource-based pattern with two main namespaces:
+    - Messaging resources: Direct access to communication channels (SMS, Email, etc.)
+    - Services namespace: Organized access to data management services
 
     Example:
         >>> client = DevoClient(api_key="your-api-key")
-        >>> # Send SMS using new API
+        >>>
+        >>> # Messaging resources (direct access)
         >>> response = client.sms.send_sms(
         ...     recipient="+1234567890",
         ...     message="Hello, World!",
         ...     sender="+0987654321"
         ... )
         >>> print(f"Message ID: {response.id}")
-        >>> print(f"Status: {response.status}")
         >>>
-        >>> # Get available senders
-        >>> senders = client.sms.get_senders()
-        >>> for sender in senders.senders:
-        ...     print(f"Sender: {sender.phone_number}")
+        >>> # Services namespace (organized access)
+        >>> groups = client.services.contact_groups.list()
+        >>> for group in groups.groups:
+        ...     print(f"Group: {group.name}")
         >>>
-        >>> # Get available numbers
-        >>> numbers = client.sms.get_available_numbers(region="US", limit=5)
-        >>> for number_info in numbers.numbers:
-        ...     for feature in number_info.features:
-        ...         print(f"Number: {feature.phone_number}")
+        >>> # Omni-channel messaging
+        >>> from devo_global_comms_python.models.messages import SendMessageDto
+        >>> message = client.messages.send(SendMessageDto(
+        ...     channel="sms",
+        ...     to="+1234567890",
+        ...     payload={"text": "Hello World"}
+        ... ))
     """
 
     DEFAULT_BASE_URL = "https://global-api-development.devotel.io/api/v1"
@@ -82,14 +84,16 @@ class DevoClient:
         # Set up session with retry strategy
         self.session = session or self._create_session(max_retries)
 
-        # Initialize resources
+        # Initialize messaging resources
         self.sms = SMSResource(self)
         self.email = EmailResource(self)
         self.whatsapp = WhatsAppResource(self)
         self.rcs = RCSResource(self)
         self.contacts = ContactsResource(self)
-        self.contact_groups = ContactGroupsResource(self)
         self.messages = MessagesResource(self)
+
+        # Initialize services namespace
+        self.services = ServicesNamespace(self)
 
     def _create_session(self, max_retries: int) -> requests.Session:
         """Create a requests session with retry strategy."""
