@@ -69,6 +69,12 @@ include = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/devo_global_comms_python"]
 
+[tool.hatch.build]
+include = ["src/"]
+
+[tool.hatch.build.sources]
+"src" = ""
+
 [tool.black]
 line-length = 120
 target-version = ['py38']
