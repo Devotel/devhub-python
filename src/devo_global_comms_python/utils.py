@@ -1,11 +1,11 @@
 import re
-from typing import Optional
+from typing import Optional, Type, TypeVar
 
-from .exceptions import (
-    DevoInvalidEmailException,
-    DevoInvalidPhoneNumberException,
-    DevoValidationException,
-)
+from pydantic import BaseModel
+
+from .exceptions import DevoInvalidEmailException, DevoInvalidPhoneNumberException, DevoValidationException
+
+T = TypeVar("T", bound=BaseModel)
 
 
 def validate_phone_number(phone_number: str) -> str:
@@ -29,9 +29,7 @@ def validate_phone_number(phone_number: str) -> str:
 
     # Check if it starts with + and has digits
     if not re.match(r"^\+\d{10,15}$", cleaned):
-        raise DevoInvalidPhoneNumberException(
-            "Phone number must be in E.164 format (e.g., +1234567890)"
-        )
+        raise DevoInvalidPhoneNumberException("Phone number must be in E.164 format (e.g., +1234567890)")
 
     return cleaned
 
@@ -106,6 +104,27 @@ def format_datetime(dt) -> str:
 
     # Assume it's a datetime object
     return dt.isoformat()
+
+
+def validate_response(response, model_class: Type[T]) -> T:
+    """
+    Validate and parse API response into a Pydantic model.
+
+    Args:
+        response: HTTP response object with json() method
+        model_class: Pydantic model class to parse response into
+
+    Returns:
+        Parsed model instance
+
+    Raises:
+        DevoValidationException: If response parsing fails
+    """
+    try:
+        data = response.json()
+        return model_class(**data)
+    except Exception as e:
+        raise DevoValidationException(f"Failed to parse response: {str(e)}")
 
 
 def parse_webhook_signature(signature_header: str) -> dict:

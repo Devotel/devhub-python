@@ -6,6 +6,7 @@ This directory contains comprehensive examples for using the Devo Global Communi
 
 ### 🚀 Overview
 - **`basic_usage.py`** - Interactive overview and launcher for all examples
+- **`omni_channel_example.py`** - ✅ **Complete Omni-channel Messaging** - Unified API for all channels
 
 ### 📱 Communication Resources
 - **`sms_example.py`** - ✅ **Complete SMS API implementation**
@@ -14,9 +15,14 @@ This directory contains comprehensive examples for using the Devo Global Communi
   - Search and purchase phone numbers
   - Legacy compatibility methods
 
+- **`rcs_example.py`** - ✅ **Complete RCS API implementation**
+  - Account management and messaging operations
+  - Template and brand management
+  - Tester management and capability testing
+  - Rich messaging features (cards, carousels, suggestions)
+
 - **`email_example.py`** - 🚧 **Placeholder** (Email functionality)
 - **`whatsapp_example.py`** - 🚧 **Placeholder** (WhatsApp functionality)
-- **`rcs_example.py`** - 🚧 **Placeholder** (RCS functionality)
 
 ### 👥 Management Resources
 - **`contacts_example.py`** - 🚧 **Placeholder** (Contact management)
@@ -47,14 +53,62 @@ This provides an interactive menu to choose and run specific examples.
 
 #### Option 2: Run Individual Examples
 ```bash
+# Omni-channel messaging (fully implemented)
+python examples/omni_channel_example.py
+
 # SMS functionality (fully implemented)
 python examples/sms_example.py
+
+# RCS functionality (fully implemented)
+python examples/rcs_example.py
 
 # Other resources (placeholder examples)
 python examples/email_example.py
 python examples/whatsapp_example.py
 python examples/contacts_example.py
-python examples/rcs_example.py
+```
+
+## 🌐 Omni-channel Messaging Examples (Fully Implemented)
+
+The unified messaging resource provides a single API endpoint to send messages through any channel:
+
+### 🔧 Available Functions
+1. **Send Message** - `client.messages.send()`
+   - Uses POST `/api/v1/user-api/messages/send`
+   - Supports SMS, Email, WhatsApp, and RCS channels
+   - Channel-specific payload flexibility
+   - Unified response format
+
+### 💡 Key Features
+- **Unified Interface**: One endpoint for all channels
+- **Channel-specific Payloads**: Flexible payload structure for each channel
+- **Type Safety**: Full Pydantic model validation
+- **Metadata Support**: Custom metadata and webhook URLs
+- **Bulk Messaging**: Easy iteration across multiple channels
+
+### 📝 Example Usage
+```python
+from devo_global_comms_python.models.messages import SendMessageDto
+
+# Send SMS
+sms_data = SendMessageDto(
+    channel="sms",
+    to="+1234567890",
+    payload={"text": "Hello World"}
+)
+result = client.messages.send(sms_data)
+
+# Send Email
+email_data = SendMessageDto(
+    channel="email",
+    to="user@example.com",
+    payload={
+        "subject": "Test Email",
+        "text": "Hello World",
+        "html": "<h1>Hello World</h1>"
+    }
+)
+result = client.messages.send(email_data)
 ```
 
 ## 📱 SMS Examples (Fully Implemented)
