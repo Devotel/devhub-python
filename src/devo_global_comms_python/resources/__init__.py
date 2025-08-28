@@ -1,3 +1,4 @@
+from .contact_groups import ContactGroupsResource
 from .contacts import ContactsResource
 from .email import EmailResource
 from .messages import MessagesResource
@@ -11,5 +12,6 @@ __all__ = [
     "WhatsAppResource",
     "RCSResource",
     "ContactsResource",
+    "ContactGroupsResource",
     "MessagesResource",
 ]

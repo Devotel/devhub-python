@@ -26,6 +26,11 @@ This directory contains comprehensive examples for using the Devo Global Communi
 
 ### 👥 Management Resources
 - **`contacts_example.py`** - 🚧 **Placeholder** (Contact management)
+- **`contact_groups_example.py`** - ✅ **Complete Contact Groups API implementation**
+  - CRUD operations for contact groups
+  - Bulk operations and contact transfer
+  - Search and pagination features
+  - Metadata management and workflow examples
 
 ## 🚀 Getting Started
 
@@ -66,6 +71,9 @@ python examples/rcs_example.py
 python examples/email_example.py
 python examples/whatsapp_example.py
 python examples/contacts_example.py
+
+# Contact groups functionality (fully implemented)
+python examples/contact_groups_example.py
 ```
 
 ## 🌐 Omni-channel Messaging Examples (Fully Implemented)
@@ -144,6 +152,73 @@ The following examples show the structure and planned functionality but are not 
 - **WhatsApp**: Text messages, media, templates, business features
 - **RCS**: Rich messaging, cards, carousels, capability checks
 - **Contacts**: CRUD operations, contact management
+
+## 📁 Contact Groups Examples (Fully Implemented)
+
+The contact groups resource is fully implemented with all CRUD operations:
+
+### 🔧 Available Functions
+1. **List Groups** - `client.contact_groups.list()`
+   - Uses GET `/api/v1/contacts-groups`
+   - Pagination and search support
+   - Field filtering capabilities
+
+2. **Create Group** - `client.contact_groups.create()`
+   - Uses POST `/api/v1/contacts-groups`
+   - Metadata and contact assignment
+   - Validation and error handling
+
+3. **Update Group** - `client.contact_groups.update()`
+   - Uses PUT `/api/v1/contacts-groups/{group_id}`
+   - Partial updates with metadata
+   - Flexible field modification
+
+4. **Get Group** - `client.contact_groups.get_by_id()`
+   - Uses GET `/api/v1/contacts-groups/{group_id}`
+   - Complete group information retrieval
+
+5. **Delete Group** - `client.contact_groups.delete_by_id()`
+   - Uses DELETE `/api/v1/contacts-groups/{group_id}`
+   - Individual group deletion with approval
+
+6. **Bulk Delete** - `client.contact_groups.delete_bulk()`
+   - Uses DELETE `/api/v1/contacts-groups`
+   - Multiple group deletion with contact transfer
+
+7. **Search Groups** - `client.contact_groups.search()`
+   - Uses GET `/api/v1/contacts-groups`
+   - Advanced search with field filtering
+
+### 💡 Key Features
+- **Complete CRUD Operations**: Full lifecycle management
+- **Bulk Operations**: Efficient multi-group operations
+- **Contact Transfer**: Safe deletion with contact preservation
+- **Metadata Support**: Custom metadata for business logic
+- **Search & Filter**: Advanced query capabilities
+- **Pagination**: Efficient large dataset handling
+
+### 📝 Example Usage
+```python
+from devo_global_comms_python.models.contact_groups import CreateContactsGroupDto
+
+# Create new contact group
+group_data = CreateContactsGroupDto(
+    name="VIP Customers",
+    description="High-value customers",
+    contact_ids=["contact1", "contact2"],
+    metadata={"priority": "high"}
+)
+group = client.contact_groups.create(group_data)
+
+# List with pagination
+groups = client.contact_groups.list(page=1, limit=10, search="VIP")
+
+# Search groups
+search_results = client.contact_groups.search(
+    query="priority",
+    fields=["name", "description"]
+)
+```
 
 ## 🔧 Configuration Notes
 

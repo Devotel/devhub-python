@@ -1,3 +1,10 @@
+from .contact_groups import (
+    ContactsGroup,
+    ContactsGroupListResponse,
+    CreateContactsGroupDto,
+    DeleteContactsGroupsDto,
+    UpdateContactsGroupDto,
+)
 from .contacts import Contact
 from .email import EmailMessage
 from .messages import Message, SendMessageDto, SendMessageSerializer
@@ -29,6 +36,12 @@ __all__ = [
     # Omni-channel messaging models
     "SendMessageDto",
     "SendMessageSerializer",
+    # Contact groups models
+    "ContactsGroup",
+    "ContactsGroupListResponse",
+    "CreateContactsGroupDto",
+    "DeleteContactsGroupsDto",
+    "UpdateContactsGroupDto",
     # New SMS API models
     "SMSQuickSendRequest",
     "SMSQuickSendResponse",
