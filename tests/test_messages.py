@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from src.devo_global_comms_python.models.messages import SendMessageDto, SendMessageSerializer
-from src.devo_global_comms_python.resources.messages import MessagesResource
+from devo_global_comms_python.models.messages import SendMessageDto, SendMessageSerializer
+from devo_global_comms_python.resources.messages import MessagesResource
 
 
 class TestMessagesResource:

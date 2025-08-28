@@ -9,7 +9,7 @@ from devo_global_comms_python import DevoClient
 def mock_client():
     """Create a mock DevoClient for testing."""
     client = Mock(spec=DevoClient)
-    client.base_url = "https://api.devo.com/v1"
+    client.base_url = "https://global-api-development.devotel.io/api/v1"
     client.timeout = 30.0
     return client
 

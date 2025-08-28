@@ -2,9 +2,9 @@ from unittest.mock import Mock
 
 import pytest
 
-from src.devo_global_comms_python import DevoClient
-from src.devo_global_comms_python.exceptions import DevoValidationException
-from src.devo_global_comms_python.models.contacts import (
+from devo_global_comms_python import DevoClient
+from devo_global_comms_python.exceptions import DevoValidationException
+from devo_global_comms_python.models.contacts import (
     AssignToContactsGroupDto,
     CommonDeleteDto,
     ContactSerializer,
@@ -19,7 +19,7 @@ from src.devo_global_comms_python.models.contacts import (
     UpdateContactDto,
     UpdateCustomFieldDto,
 )
-from src.devo_global_comms_python.resources.contacts import ContactsResource
+from devo_global_comms_python.resources.contacts import ContactsResource
 
 
 class TestContactsResource:
