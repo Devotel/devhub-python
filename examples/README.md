@@ -1,0 +1,161 @@
+# Devo Global Communications SDK - Examples
+
+This directory contains comprehensive examples for using the Devo Global Communications SDK. Each resource has its own dedicated example file with detailed demonstrations of the available functionality.
+
+## 📁 Example Files
+
+### 🚀 Overview
+- **`basic_usage.py`** - Interactive overview and launcher for all examples
+
+### 📱 Communication Resources
+- **`sms_example.py`** - ✅ **Complete SMS API implementation**
+  - Send SMS messages via quick-send API
+  - Get available senders
+  - Search and purchase phone numbers
+  - Legacy compatibility methods
+
+- **`email_example.py`** - 🚧 **Placeholder** (Email functionality)
+- **`whatsapp_example.py`** - 🚧 **Placeholder** (WhatsApp functionality)
+- **`rcs_example.py`** - 🚧 **Placeholder** (RCS functionality)
+
+### 👥 Management Resources
+- **`contacts_example.py`** - 🚧 **Placeholder** (Contact management)
+
+## 🚀 Getting Started
+
+### Prerequisites
+1. **API Key**: Get your API key from the Devo dashboard
+2. **Environment**: Set the `DEVO_API_KEY` environment variable
+   ```bash
+   # Windows (PowerShell)
+   $env:DEVO_API_KEY = "your_api_key_here"
+
+   # Windows (Command Prompt)
+   set DEVO_API_KEY=your_api_key_here
+
+   # Unix/Linux/macOS
+   export DEVO_API_KEY=your_api_key_here
+   ```
+
+### Running Examples
+
+#### Option 1: Interactive Overview (Recommended)
+```bash
+python examples/basic_usage.py
+```
+This provides an interactive menu to choose and run specific examples.
+
+#### Option 2: Run Individual Examples
+```bash
+# SMS functionality (fully implemented)
+python examples/sms_example.py
+
+# Other resources (placeholder examples)
+python examples/email_example.py
+python examples/whatsapp_example.py
+python examples/contacts_example.py
+python examples/rcs_example.py
+```
+
+## 📱 SMS Examples (Fully Implemented)
+
+The SMS resource is fully implemented with all four API endpoints:
+
+### 🔧 Available Functions
+1. **Send SMS** - `client.sms.send_sms()`
+   - Uses POST `/user-api/sms/quick-send`
+   - High-quality routing validation
+   - Comprehensive response data
+
+2. **Get Senders** - `client.sms.get_senders()`
+   - Uses GET `/user-api/me/senders`
+   - Lists all available sender numbers/IDs
+
+3. **Search Numbers** - `client.sms.get_available_numbers()`
+   - Uses GET `/user-api/numbers`
+   - Filter by region, type, and limit results
+
+4. **Purchase Numbers** - `client.sms.buy_number()`
+   - Uses POST `/user-api/numbers/buy`
+   - Complete number purchasing workflow
+
+### 🔄 Legacy Compatibility
+The SMS resource maintains backward compatibility with legacy methods while using the new API implementation underneath.
+
+## 🚧 Placeholder Examples
+
+The following examples show the structure and planned functionality but are not yet implemented:
+
+- **Email**: Send emails, attachments, templates
+- **WhatsApp**: Text messages, media, templates, business features
+- **RCS**: Rich messaging, cards, carousels, capability checks
+- **Contacts**: CRUD operations, contact management
+
+## 🔧 Configuration Notes
+
+### Phone Numbers
+- Replace placeholder phone numbers (`+1234567890`) with actual numbers
+- Ensure phone numbers are in E.164 format (e.g., `+1234567890`)
+- Use valid sender numbers from your Devo dashboard
+
+### Testing vs Production
+- Some examples include test mode flags
+- Number purchase examples are commented out to prevent accidental charges
+- Always test with small limits when exploring available numbers
+
+### Error Handling
+All examples include comprehensive error handling with:
+- Detailed error messages
+- HTTP status codes
+- API-specific error codes
+- Response data debugging
+
+## 🆔 Authentication
+
+All examples use API key authentication:
+```python
+from devo_global_comms_python import DevoClient
+
+client = DevoClient(api_key="your_api_key_here")
+```
+
+## 📋 Example Output
+
+### SMS Example Output
+```
+📱 SMS QUICK-SEND API EXAMPLE
+------------------------------
+📤 Sending SMS to +1234567890...
+✅ SMS sent successfully!
+   📋 Message ID: msg_123456789
+   📊 Status: sent
+   📱 Recipient: +1234567890
+   🔄 Direction: outbound
+
+👥 GET AVAILABLE SENDERS EXAMPLE
+------------------------------
+✅ Found 3 available senders:
+   1. 📞 Phone: +0987654321
+      🏷️  Type: longcode
+      🧪 Test Mode: No
+```
+
+## 🤝 Contributing
+
+When implementing new resources:
+
+1. **Create Resource Example**: Copy the structure from `sms_example.py`
+2. **Update Basic Usage**: Add the new resource to `basic_usage.py`
+3. **Update This README**: Document the new functionality
+4. **Follow Patterns**: Use consistent emoji, formatting, and error handling
+
+## 📚 Additional Resources
+
+- **SDK Documentation**: [Link to main documentation]
+- **API Reference**: [Link to API docs]
+- **Devo Dashboard**: [Link to dashboard]
+- **Support**: [Link to support]
+
+---
+
+**Need help?** Check the individual example files for detailed comments and error handling patterns.

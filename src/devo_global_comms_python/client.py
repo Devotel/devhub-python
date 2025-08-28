@@ -5,22 +5,13 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from .auth import APIKeyAuth
-from .exceptions import (
-    DevoAPIException,
-    DevoAuthenticationException,
-    DevoConnectionException,
-    DevoException,
-    DevoMissingAPIKeyException,
-    DevoTimeoutException,
-    create_exception_from_response,
-)
+from .exceptions import DevoAPIException, DevoAuthenticationException, DevoException, DevoMissingAPIKeyException
 from .resources.contacts import ContactsResource
 from .resources.email import EmailResource
 from .resources.messages import MessagesResource
 from .resources.rcs import RCSResource
 from .resources.sms import SMSResource
 from .resources.whatsapp import WhatsAppResource
-from .utils import validate_email, validate_phone_number
 
 
 class DevoClient:
@@ -33,11 +24,25 @@ class DevoClient:
 
     Example:
         >>> client = DevoClient(api_key="your-api-key")
-        >>> message = client.sms.send(
-        ...     to="+1234567890",
-        ...     body="Hello, World!"
+        >>> # Send SMS using new API
+        >>> response = client.sms.send_sms(
+        ...     recipient="+1234567890",
+        ...     message="Hello, World!",
+        ...     sender="+0987654321"
         ... )
-        >>> print(message.sid)
+        >>> print(f"Message ID: {response.id}")
+        >>> print(f"Status: {response.status}")
+        >>>
+        >>> # Get available senders
+        >>> senders = client.sms.get_senders()
+        >>> for sender in senders.senders:
+        ...     print(f"Sender: {sender.phone_number}")
+        >>>
+        >>> # Get available numbers
+        >>> numbers = client.sms.get_available_numbers(region="US", limit=5)
+        >>> for number_info in numbers.numbers:
+        ...     for feature in number_info.features:
+        ...         print(f"Number: {feature.phone_number}")
     """
 
     DEFAULT_BASE_URL = "https://global-api-development.devotel.io/api/v1"
