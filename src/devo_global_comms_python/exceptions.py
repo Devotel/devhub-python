@@ -423,29 +423,29 @@ def create_exception_from_response(response: requests.Response) -> DevoAPIExcept
         request_id = None
 
     # Extract rate limit headers
-    retry_after = None
-    limit = None
-    remaining = None
+    retry_after: Optional[int] = None
+    limit: Optional[int] = None
+    remaining: Optional[int] = None
 
     if status_code == 429:
-        retry_after = response.headers.get("Retry-After")
-        if retry_after:
+        retry_after_str = response.headers.get("Retry-After")
+        if retry_after_str:
             try:
-                retry_after = int(retry_after)
+                retry_after = int(retry_after_str)
             except ValueError:
                 retry_after = None
 
-        limit = response.headers.get("X-RateLimit-Limit")
-        if limit:
+        limit_str = response.headers.get("X-RateLimit-Limit")
+        if limit_str:
             try:
-                limit = int(limit)
+                limit = int(limit_str)
             except ValueError:
                 limit = None
 
-        remaining = response.headers.get("X-RateLimit-Remaining")
-        if remaining:
+        remaining_str = response.headers.get("X-RateLimit-Remaining")
+        if remaining_str:
             try:
-                remaining = int(remaining)
+                remaining = int(remaining_str)
             except ValueError:
                 remaining = None
 

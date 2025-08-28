@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from ..utils import validate_required_string
 from .base import BaseResource
@@ -70,7 +70,7 @@ class ContactsResource(BaseResource):
         Returns:
             GetContactsSerializer: Paginated list of contacts
         """
-        params = {"page": page, "limit": limit}
+        params: Dict[str, Any] = {"page": page, "limit": limit}
 
         if contacts_group_ids:
             params["contacts_group_ids"] = contacts_group_ids
@@ -221,7 +221,7 @@ class ContactsResource(BaseResource):
         Returns:
             GetCustomFieldsSerializer: Paginated list of custom fields
         """
-        params = {"page": page, "limit": limit}
+        params: Dict[str, Any] = {"page": page, "limit": limit}
 
         if id:
             params["id"] = id
