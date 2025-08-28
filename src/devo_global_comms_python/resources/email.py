@@ -55,7 +55,7 @@ class EmailResource(BaseResource):
         }
 
         # Send request to the exact endpoint
-        response = self.client.post("email/send", json=data)
+        response = self.client.post("user-api/email/send", json=data)
 
         from ..models.email import EmailSendResponse
 

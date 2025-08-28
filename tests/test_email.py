@@ -40,7 +40,7 @@ class TestEmailResource:
 
         # Verify the request was made correctly
         email_resource.client.post.assert_called_once_with(
-            "email/send",
+            "user-api/email/send",
             json={
                 "subject": "Hello World!",
                 "body": "This is a test email!",
@@ -128,7 +128,7 @@ class TestEmailResource:
 
         # Verify the request was made with special characters
         email_resource.client.post.assert_called_once_with(
-            "email/send",
+            "user-api/email/send",
             json={
                 "subject": special_subject,
                 "body": special_body,
@@ -165,7 +165,7 @@ class TestEmailResource:
         )
 
         email_resource.client.post.assert_called_once_with(
-            "email/send",
+            "user-api/email/send",
             json={
                 "subject": long_subject,
                 "body": long_body,
@@ -259,7 +259,7 @@ class TestEmailResource:
         )
 
         email_resource.client.post.assert_called_once_with(
-            "email/send",
+            "user-api/email/send",
             json={
                 "subject": unicode_subject,
                 "body": unicode_body,

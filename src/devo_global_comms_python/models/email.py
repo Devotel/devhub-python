@@ -9,7 +9,7 @@ class EmailSendRequest(BaseModel):
     """
     Request model for email send API.
 
-    Used for POST /user-api/email/send
+    Used for POST /api/v1/user-api/email/send
     """
 
     subject: str = Field(..., description="Email subject")
@@ -23,7 +23,7 @@ class EmailSendResponse(BaseModel):
     """
     Response model for email send API.
 
-    Returned from POST /user-api/email/send
+    Returned from POST /api/v1/user-api/email/send
     """
 
     success: bool = Field(..., description="Whether the email was sent successfully")
