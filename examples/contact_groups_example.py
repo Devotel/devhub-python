@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import os
 from datetime import datetime
 
@@ -11,13 +10,6 @@ from devo_global_comms_python.models.contact_groups import (
 
 
 def main():
-    """
-    Demonstrate contact groups management capabilities.
-
-    Shows how to create, read, update and delete contact groups
-    using the Contact Groups API.
-    """
-
     # Initialize the client
     api_key = os.getenv("DEVO_API_KEY")
     if not api_key:
@@ -28,11 +20,13 @@ def main():
 
     print("🗂️  Devo Global Communications - Contact Groups Management Example")
     print("=" * 75)
+    print("📋 Using services namespace: client.services.contact_groups")
+    print()
 
     # Example 1: List existing contact groups
     print("\n📋 Listing existing contact groups...")
     try:
-        groups_list = client.contact_groups.list(page=1, limit=5)
+        groups_list = client.services.contact_groups.list(page=1, limit=5)
         print(f"✅ Found {groups_list.total} total groups")
         print(f"   Page: {groups_list.page}/{groups_list.total_pages}")
         print(f"   Showing: {len(groups_list.groups)} groups")
@@ -63,7 +57,7 @@ def main():
             },
         )
 
-        new_group = client.contact_groups.create(new_group_data)
+        new_group = client.services.contact_groups.create(new_group_data)
         print("✅ Contact group created successfully!")
         print(f"   📁 Name: {new_group.name}")
         print(f"   🆔 ID: {new_group.id}")
@@ -88,7 +82,7 @@ def main():
                 metadata={"updated_by": "api_example", "updated_at": datetime.now().isoformat(), "version": "2.0"},
             )
 
-            updated_group = client.contact_groups.update(created_group_id, update_data)
+            updated_group = client.services.contact_groups.update(created_group_id, update_data)
             print("✅ Contact group updated successfully!")
             print(f"   📁 New name: {updated_group.name}")
             print(f"   📝 New description: {updated_group.description}")
@@ -102,7 +96,7 @@ def main():
     if created_group_id:
         print(f"\n🔍 Retrieving specific group {created_group_id}...")
         try:
-            specific_group = client.contact_groups.get_by_id(created_group_id)
+            specific_group = client.services.contact_groups.get_by_id(created_group_id)
             print("✅ Group retrieved successfully!")
             print(f"   📁 Name: {specific_group.name}")
             print(f"   📝 Description: {specific_group.description}")
@@ -115,7 +109,9 @@ def main():
     # Example 5: Search contact groups
     print("\n🔎 Searching contact groups...")
     try:
-        search_results = client.contact_groups.search(query="demo", fields=["name", "description"], page=1, limit=10)
+        search_results = client.services.contact_groups.search(
+            query="demo", fields=["name", "description"], page=1, limit=10
+        )
         print(f"✅ Search completed! Found {search_results.total} matching groups")
 
         for i, group in enumerate(search_results.groups, 1):
@@ -130,7 +126,7 @@ def main():
     # Example 6: Advanced listing with filters
     print("\n🔧 Advanced group listing with filters...")
     try:
-        filtered_groups = client.contact_groups.list(
+        filtered_groups = client.services.contact_groups.list(
             page=1, limit=3, search="demo", search_fields=["name", "description"]
         )
         print("✅ Filtered listing completed!")
@@ -157,7 +153,7 @@ def main():
                 metadata={"bulk_demo": True, "group_number": i + 1},
             )
 
-            bulk_group = client.contact_groups.create(bulk_group_data)
+            bulk_group = client.services.contact_groups.create(bulk_group_data)
             bulk_group_ids.append(bulk_group.id)
             print(f"   ✅ Created bulk group {i+1}: {bulk_group.name}")
 
@@ -170,7 +166,7 @@ def main():
     if created_group_id:
         print(f"\n🗑️  Deleting individual group {created_group_id}...")
         try:
-            deleted_group = client.contact_groups.delete_by_id(created_group_id, approve="yes")
+            deleted_group = client.services.contact_groups.delete_by_id(created_group_id, approve="yes")
             print("✅ Individual group deleted successfully!")
             print(f"   📁 Deleted group: {deleted_group.name}")
 
@@ -185,17 +181,17 @@ def main():
             backup_group_data = CreateContactsGroupDto(
                 name="Backup Group for Bulk Delete Demo", description="Temporary group to receive transferred contacts"
             )
-            backup_group = client.contact_groups.create(backup_group_data)
+            backup_group = client.services.contact_groups.create(backup_group_data)
 
             # Perform bulk deletion
             bulk_delete_data = DeleteContactsGroupsDto(group_ids=bulk_group_ids, transfer_contacts_to=backup_group.id)
 
-            bulk_delete_result = client.contact_groups.delete_bulk(bulk_delete_data, approve="yes")
+            bulk_delete_result = client.services.contact_groups.delete_bulk(bulk_delete_data, approve="yes")
             print("✅ Bulk deletion completed successfully!")
             print(f"   📊 Operation result: {bulk_delete_result.name}")
 
             # Clean up backup group
-            client.contact_groups.delete_by_id(backup_group.id, approve="yes")
+            client.services.contact_groups.delete_by_id(backup_group.id, approve="yes")
             print("   🧹 Cleaned up backup group")
 
         except Exception as e:
@@ -205,7 +201,7 @@ def main():
     print("\n⚠️  Error handling demonstration...")
     try:
         # Try to get a non-existent group
-        client.contact_groups.get_by_id("non_existent_group_id")
+        client.services.contact_groups.get_by_id("non_existent_group_id")
 
     except Exception as e:
         print(f"✅ Properly handled expected error: {type(e).__name__}")
@@ -277,7 +273,7 @@ def contact_group_management_workflow():
                 name=group_type["name"], description=group_type["description"], metadata=group_type["metadata"]
             )
 
-            group = client.contact_groups.create(group_data)
+            group = client.services.contact_groups.create(group_data)
             created_groups.append(group)
             print(f"   ✅ Created: {group.name}")
 
@@ -310,7 +306,7 @@ def contact_group_management_workflow():
                 },
             )
 
-            client.contact_groups.update(vip_group.id, update_data)
+            client.services.contact_groups.update(vip_group.id, update_data)
             print("   ✅ Updated VIP group with enhanced metadata")
 
         except Exception as e:
@@ -326,16 +322,16 @@ def contact_group_management_workflow():
             temp_group_data = CreateContactsGroupDto(
                 name="Temporary Archive", description="Temporary group for workflow cleanup"
             )
-            temp_group = client.contact_groups.create(temp_group_data)
+            temp_group = client.services.contact_groups.create(temp_group_data)
 
             # Bulk delete with contact transfer
             delete_data = DeleteContactsGroupsDto(group_ids=group_ids, transfer_contacts_to=temp_group.id)
 
-            client.contact_groups.delete_bulk(delete_data, approve="yes")
+            client.services.contact_groups.delete_bulk(delete_data, approve="yes")
             print(f"   ✅ Bulk deleted {len(group_ids)} demonstration groups")
 
             # Delete temporary group
-            client.contact_groups.delete_by_id(temp_group.id, approve="yes")
+            client.services.contact_groups.delete_by_id(temp_group.id, approve="yes")
             print("   ✅ Cleaned up temporary archive group")
 
         except Exception as e:

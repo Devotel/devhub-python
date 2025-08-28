@@ -37,15 +37,23 @@ def main():
         resources.append(("💬 WhatsApp", "Placeholder", "whatsapp_example.py"))
     if hasattr(client, "contacts"):
         resources.append(("👥 Contacts", "Placeholder", "contacts_example.py"))
-    if hasattr(client, "contact_groups"):
-        resources.append(("🗂️  Contact Groups", "Implemented", "contact_groups_example.py"))
+    if hasattr(client, "services") and hasattr(client.services, "contact_groups"):
+        resources.append(("🗂️  Contact Groups", "Implemented (Services)", "contact_groups_example.py"))
     if hasattr(client, "rcs"):
         resources.append(("🎴 RCS", "Placeholder", "rcs_example.py"))
     if hasattr(client, "messages"):
         resources.append(("📬 Messages", "Implemented", "omni_channel_example.py"))
 
     for resource, status, example_file in resources:
-        print(f"   {resource:<12} - {status:<12} -> {example_file}")
+        print(f"   {resource:<18} - {status:<20} -> {example_file}")
+
+    # Services namespace information
+    if hasattr(client, "services"):
+        print("\n🏢 Services Namespace:")
+        print("-" * 30)
+        print("   🗂️  Contact Groups - client.services.contact_groups")
+        print("   👥 Contacts (Future) - client.services.contacts")
+        print("   📊 Analytics (Future) - client.services.analytics")
 
     # Quick SMS test if available
     if hasattr(client, "sms"):

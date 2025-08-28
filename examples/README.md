@@ -158,34 +158,34 @@ The following examples show the structure and planned functionality but are not 
 The contact groups resource is fully implemented with all CRUD operations:
 
 ### 🔧 Available Functions
-1. **List Groups** - `client.contact_groups.list()`
+1. **List Groups** - `client.services.contact_groups.list()`
    - Uses GET `/api/v1/contacts-groups`
    - Pagination and search support
    - Field filtering capabilities
 
-2. **Create Group** - `client.contact_groups.create()`
+2. **Create Group** - `client.services.contact_groups.create()`
    - Uses POST `/api/v1/contacts-groups`
    - Metadata and contact assignment
    - Validation and error handling
 
-3. **Update Group** - `client.contact_groups.update()`
+3. **Update Group** - `client.services.contact_groups.update()`
    - Uses PUT `/api/v1/contacts-groups/{group_id}`
    - Partial updates with metadata
    - Flexible field modification
 
-4. **Get Group** - `client.contact_groups.get_by_id()`
+4. **Get Group** - `client.services.contact_groups.get_by_id()`
    - Uses GET `/api/v1/contacts-groups/{group_id}`
    - Complete group information retrieval
 
-5. **Delete Group** - `client.contact_groups.delete_by_id()`
+5. **Delete Group** - `client.services.contact_groups.delete_by_id()`
    - Uses DELETE `/api/v1/contacts-groups/{group_id}`
    - Individual group deletion with approval
 
-6. **Bulk Delete** - `client.contact_groups.delete_bulk()`
+6. **Bulk Delete** - `client.services.contact_groups.delete_bulk()`
    - Uses DELETE `/api/v1/contacts-groups`
    - Multiple group deletion with contact transfer
 
-7. **Search Groups** - `client.contact_groups.search()`
+7. **Search Groups** - `client.services.contact_groups.search()`
    - Uses GET `/api/v1/contacts-groups`
    - Advanced search with field filtering
 
@@ -201,23 +201,26 @@ The contact groups resource is fully implemented with all CRUD operations:
 ```python
 from devo_global_comms_python.models.contact_groups import CreateContactsGroupDto
 
-# Create new contact group
+# Create new contact group (using new services namespace)
 group_data = CreateContactsGroupDto(
     name="VIP Customers",
     description="High-value customers",
     contact_ids=["contact1", "contact2"],
     metadata={"priority": "high"}
 )
-group = client.contact_groups.create(group_data)
+group = client.services.contact_groups.create(group_data)
 
 # List with pagination
-groups = client.contact_groups.list(page=1, limit=10, search="VIP")
+groups = client.services.contact_groups.list(page=1, limit=10, search="VIP")
 
 # Search groups
-search_results = client.contact_groups.search(
+search_results = client.services.contact_groups.search(
     query="priority",
     fields=["name", "description"]
 )
+
+# Backward compatibility (deprecated - shows warning)
+# groups = client.contact_groups.list()  # Still works but deprecated
 ```
 
 ## 🔧 Configuration Notes
