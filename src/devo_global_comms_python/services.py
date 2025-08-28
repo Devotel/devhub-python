@@ -4,6 +4,7 @@ Services namespace for organizing service-related resources.
 This module provides a namespace for accessing service-related functionality
 such as contact management, contact groups, and other data management services.
 """
+
 from typing import TYPE_CHECKING
 
 from .resources.contact_groups import ContactGroupsResource

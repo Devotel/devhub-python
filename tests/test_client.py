@@ -4,10 +4,7 @@ import pytest
 import requests
 
 from devo_global_comms_python import DevoClient
-from devo_global_comms_python.exceptions import (
-    DevoAPIException,
-    DevoAuthenticationException,
-)
+from devo_global_comms_python.exceptions import DevoAPIException, DevoAuthenticationException
 
 
 class TestDevoClient:
@@ -27,9 +24,7 @@ class TestDevoClient:
         timeout = 60.0
         max_retries = 5
 
-        client = DevoClient(
-            api_key=api_key, base_url=base_url, timeout=timeout, max_retries=max_retries
-        )
+        client = DevoClient(api_key=api_key, base_url=base_url, timeout=timeout, max_retries=max_retries)
 
         assert client.base_url == base_url
         assert client.timeout == timeout

@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
 
 import requests
 
@@ -59,9 +59,7 @@ class DevoAPIException(DevoException):
                 self.request_details = {
                     "method": response.request.method,
                     "url": response.request.url,
-                    "headers": dict(response.request.headers)
-                    if hasattr(response.request, "headers")
-                    else {},
+                    "headers": dict(response.request.headers) if hasattr(response.request, "headers") else {},
                 }
             except (AttributeError, TypeError):
                 # Handle cases where response is mocked or doesn't have expected attributes
@@ -274,9 +272,7 @@ class DevoInsufficientCreditsException(DevoAPIException):
         **kwargs,
     ):
         if required and available:
-            message = (
-                f"Insufficient credits. Required: {required}, Available: {available}"
-            )
+            message = f"Insufficient credits. Required: {required}, Available: {available}"
         else:
             message = "Insufficient credits to complete this operation"
         super().__init__(message, status_code=402, **kwargs)
