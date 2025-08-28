@@ -190,3 +190,5 @@ Thumbs.db
 api_keys.txt
 secrets.json
 .api_key
+
+setup-dev-env.ps1
