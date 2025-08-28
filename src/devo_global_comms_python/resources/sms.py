@@ -1,165 +1,375 @@
 """
 SMS resource for the Devo Global Communications API.
+
+Implements SMS API endpoints for sending messages and managing phone numbers.
 """
 
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+import logging
+from datetime import datetime
+from typing import TYPE_CHECKING, List, Optional
 
-from ..utils import validate_phone_number, validate_required_string
+from ..exceptions import DevoValidationException
+from ..utils import validate_email, validate_phone_number, validate_required_string
 from .base import BaseResource
 
 if TYPE_CHECKING:
-    from ..models.sms import SMSMessage
+    from ..models.sms import AvailableNumbersResponse, NumberPurchaseResponse, SendersListResponse, SMSQuickSendResponse
+
+logger = logging.getLogger(__name__)
 
 
 class SMSResource(BaseResource):
     """
-    SMS resource for sending and managing SMS messages.
+    SMS resource for sending messages and managing phone numbers.
 
-    Example:
-        >>> message = client.sms.send(
-        ...     to="+1234567890",
-        ...     body="Hello, World!"
+    This resource provides access to SMS functionality including:
+    - Sending SMS messages via quick-send
+    - Managing senders and phone numbers
+    - Purchasing new phone numbers
+    - Listing available numbers
+
+    Examples:
+        Send SMS:
+        >>> response = client.sms.send_sms(
+        ...     recipient="+1234567890",
+        ...     message="Hello World!",
+        ...     sender="+0987654321"
         ... )
-        >>> print(message.sid)
+
+        Get senders:
+        >>> senders = client.sms.get_senders()
+        >>> for sender in senders.senders:
+        ...     print(f"Sender: {sender.phone_number}")
+
+        Buy number:
+        >>> number = client.sms.buy_number(
+        ...     region="US",
+        ...     number="+1234567890",
+        ...     number_type="mobile",
+        ...     agency_authorized_representative="Jane Doe",
+        ...     agency_representative_email="jane.doe@company.com"
+        ... )
+
+        List available numbers:
+        >>> numbers = client.sms.get_available_numbers(
+        ...     region="US",
+        ...     limit=10,
+        ...     number_type="mobile"
+        ... )
     """
 
-    def send(
+    def send_sms(
         self,
-        to: str,
-        body: str,
-        from_: Optional[str] = None,
-        media_urls: Optional[List[str]] = None,
-        callback_url: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> "SMSMessage":
+        recipient: str,
+        message: str,
+        sender: str,
+        hirvalidation: bool = True,
+    ) -> "SMSQuickSendResponse":
         """
-        Send an SMS message.
+        Send an SMS message using the quick-send API.
 
         Args:
-            to: The recipient's phone number in E.164 format
-            body: The message body text
-            from_: The sender's phone number (optional, uses account default)
-            media_urls: List of media URLs for MMS (optional)
-            callback_url: Webhook URL for delivery status (optional)
-            metadata: Custom metadata dictionary (optional)
+            recipient: The recipient's phone number in E.164 format
+            message: The SMS message content
+            sender: The sender phone number or sender ID
+            hirvalidation: Enable HIR validation (default: True)
 
         Returns:
-            SMSMessage: The sent message details
+            SMSQuickSendResponse: The sent message details including ID and status
 
         Raises:
             DevoValidationException: If required fields are invalid
             DevoAPIException: If the API returns an error
+
+        Example:
+            >>> response = client.sms.send_sms(
+            ...     recipient="+1234567890",
+            ...     message="Hello World!",
+            ...     sender="+0987654321"
+            ... )
+            >>> print(f"Message ID: {response.id}")
+            >>> print(f"Status: {response.status}")
         """
         # Validate inputs
-        to = validate_phone_number(to)
-        body = validate_required_string(body, "body")
+        recipient = validate_phone_number(recipient)
+        message = validate_required_string(message, "message")
+        sender = validate_required_string(sender, "sender")
 
-        if from_:
-            from_ = validate_phone_number(from_)
+        logger.info(f"Sending SMS to {recipient} from {sender}")
 
-        # Prepare request data
-        data = {
-            "to": to,
-            "body": body,
-        }
+        # Prepare request data according to API spec
+        from ..models.sms import SMSQuickSendRequest
 
-        if from_:
-            data["from"] = from_
-        if media_urls:
-            data["media_urls"] = media_urls
-        if callback_url:
-            data["callback_url"] = callback_url
-        if metadata:
-            data["metadata"] = metadata
+        request_data = SMSQuickSendRequest(
+            sender=sender,
+            recipient=recipient,
+            message=message,
+            hirvalidation=hirvalidation,
+        )
 
-        # Send request
-        response = self.client.post("sms/messages", json=data)
+        # Send request to the exact API endpoint
+        response = self.client.post("user-api/sms/quick-send", json=request_data.dict())
 
-        # Import here to avoid circular imports
-        from ..models.sms import SMSMessage
+        # Parse response according to API spec
+        from ..models.sms import SMSQuickSendResponse
 
-        return SMSMessage.parse_obj(response.json())
+        result = SMSQuickSendResponse.parse_obj(response.json())
+        logger.info(f"SMS sent successfully with ID: {result.id}")
 
-    def get(self, message_sid: str) -> "SMSMessage":
+        return result
+
+    def get_senders(self) -> "SendersListResponse":
         """
-        Retrieve an SMS message by SID.
-
-        Args:
-            message_sid: The message SID
+        Retrieve the list of available senders for the account.
 
         Returns:
-            SMSMessage: The message details
+            SendersListResponse: List of available senders with their details
+
+        Raises:
+            DevoAPIException: If the API returns an error
+
+        Example:
+            >>> senders = client.sms.get_senders()
+            >>> for sender in senders.senders:
+            ...     print(f"Sender: {sender.phone_number} (Type: {sender.type})")
+            ...     print(f"Is Test: {sender.istest}")
         """
-        message_sid = validate_required_string(message_sid, "message_sid")
+        logger.info("Fetching available senders")
 
-        response = self.client.get(f"sms/messages/{message_sid}")
+        # Send request to the exact API endpoint
+        response = self.client.get("user-api/me/senders")
 
-        from ..models.sms import SMSMessage
+        # Parse response according to API spec
+        from ..models.sms import SendersListResponse
 
-        return SMSMessage.parse_obj(response.json())
+        result = SendersListResponse.parse_obj(response.json())
+        logger.info(f"Retrieved {len(result.senders)} senders")
 
-    def list(
+        return result
+
+    def buy_number(
         self,
-        to: Optional[str] = None,
-        from_: Optional[str] = None,
-        date_sent_after: Optional[str] = None,
-        date_sent_before: Optional[str] = None,
-        status: Optional[str] = None,
-        limit: int = 50,
-        offset: int = 0,
-    ) -> List["SMSMessage"]:
+        region: str,
+        number: str,
+        number_type: str,
+        agency_authorized_representative: str,
+        agency_representative_email: str,
+        is_longcode: bool = True,
+        agreement_last_sent_date: Optional[datetime] = None,
+        is_automated_enabled: bool = True,
+    ) -> "NumberPurchaseResponse":
         """
-        List SMS messages with optional filtering.
+        Purchase a phone number.
 
         Args:
-            to: Filter by recipient phone number
-            from_: Filter by sender phone number
-            date_sent_after: Filter messages sent after this date
-            date_sent_before: Filter messages sent before this date
-            status: Filter by message status
-            limit: Maximum number of messages to return (default: 50)
-            offset: Number of messages to skip (default: 0)
+            region: Region/country code for the number
+            number: Phone number to purchase
+            number_type: Type of number (mobile, landline, etc.)
+            agency_authorized_representative: Name of authorized representative
+            agency_representative_email: Email of authorized representative
+            is_longcode: Whether this is a long code number (default: True)
+            agreement_last_sent_date: Last date agreement was sent (optional)
+            is_automated_enabled: Whether automated messages are enabled (default: True)
 
         Returns:
-            List[SMSMessage]: List of messages
+            NumberPurchaseResponse: Details of the purchased number including features
+
+        Raises:
+            DevoValidationException: If required fields are invalid
+            DevoAPIException: If the API returns an error
+
+        Example:
+            >>> number = client.sms.buy_number(
+            ...     region="US",
+            ...     number="+1234567890",
+            ...     number_type="mobile",
+            ...     agency_authorized_representative="Jane Doe",
+            ...     agency_representative_email="jane.doe@company.com"
+            ... )
+            >>> print(f"Purchased number with {len(number.features)} features")
         """
-        params = {
-            "limit": limit,
-            "offset": offset,
-        }
+        # Validate inputs
+        region = validate_required_string(region, "region")
+        number = validate_phone_number(number)
+        number_type = validate_required_string(number_type, "number_type")
+        agency_authorized_representative = validate_required_string(
+            agency_authorized_representative, "agency_authorized_representative"
+        )
+        agency_representative_email = validate_email(agency_representative_email)
 
-        if to:
-            params["to"] = validate_phone_number(to)
-        if from_:
-            params["from"] = validate_phone_number(from_)
-        if date_sent_after:
-            params["date_sent_after"] = date_sent_after
-        if date_sent_before:
-            params["date_sent_before"] = date_sent_before
-        if status:
-            params["status"] = status
+        logger.info(f"Purchasing number {number} in region {region}")
 
-        response = self.client.get("sms/messages", params=params)
-        data = response.json()
+        # Prepare request data according to API spec
+        from ..models.sms import NumberPurchaseRequest
 
-        from ..models.sms import SMSMessage
+        request_data = NumberPurchaseRequest(
+            region=region,
+            number=number,
+            number_type=number_type,
+            is_longcode=is_longcode,
+            agreement_last_sent_date=agreement_last_sent_date,
+            agency_authorized_representative=agency_authorized_representative,
+            agency_representative_email=agency_representative_email,
+            is_automated_enabled=is_automated_enabled,
+        )
 
-        return [SMSMessage.parse_obj(item) for item in data.get("messages", [])]
+        # Send request to the exact API endpoint
+        response = self.client.post("user-api/numbers/buy", json=request_data.dict(exclude_none=True))
 
-    def cancel(self, message_sid: str) -> "SMSMessage":
+        # Parse response according to API spec
+        from ..models.sms import NumberPurchaseResponse
+
+        result = NumberPurchaseResponse.parse_obj(response.json())
+        logger.info(f"Number purchased successfully with {len(result.features)} features")
+
+        return result
+
+    def get_available_numbers(
+        self,
+        page: Optional[int] = None,
+        limit: Optional[int] = None,
+        capabilities: Optional[List[str]] = None,
+        type: Optional[str] = None,
+        prefix: Optional[str] = None,
+        region: str = "US",
+    ) -> "AvailableNumbersResponse":
         """
-        Cancel a scheduled SMS message.
+        Get available phone numbers for purchase.
 
         Args:
-            message_sid: The message SID to cancel
+            page: The page number (optional)
+            limit: The page limit (optional)
+            capabilities: Filter by capabilities (optional)
+            type: Filter by type (optional)
+            prefix: Filter by prefix (optional)
+            region: Filter by region (Country ISO Code), default: "US"
 
         Returns:
-            SMSMessage: The updated message details
+            AvailableNumbersResponse: List of available numbers with their features
+
+        Raises:
+            DevoValidationException: If required fields are invalid
+            DevoAPIException: If the API returns an error
+
+        Example:
+            >>> numbers = client.sms.get_available_numbers(
+            ...     region="US",
+            ...     limit=10,
+            ...     type="mobile"
+            ... )
+            >>> for number_info in numbers.numbers:
+            ...     for feature in number_info.features:
+            ...         print(f"Number: {feature.phone_number}")
+            ...         print(f"Cost: {feature.cost_information.monthly_cost}")
         """
-        message_sid = validate_required_string(message_sid, "message_sid")
+        logger.info(f"Fetching available numbers for region {region}")
 
-        response = self.client.delete(f"sms/messages/{message_sid}")
+        # Prepare query parameters
+        params = {"region": region}
 
-        from ..models.sms import SMSMessage
+        if page is not None:
+            params["page"] = page
+        if limit is not None:
+            params["limit"] = limit
+        if capabilities is not None:
+            params["capabilities"] = capabilities
+        if type is not None:
+            params["type"] = type
+        if prefix is not None:
+            params["prefix"] = prefix
 
-        return SMSMessage.parse_obj(response.json())
+        # Send request to the exact API endpoint
+        response = self.client.get("user-api/numbers", params=params)
+
+        # Parse response according to API spec
+        from ..models.sms import AvailableNumbersResponse
+
+        result = AvailableNumbersResponse.parse_obj(response.json())
+        logger.info(f"Retrieved {len(result.numbers)} available numbers")
+
+        return result
+
+    # Legacy methods for backward compatibility
+    def send(self, to: str, body: str, from_: Optional[str] = None, **kwargs) -> "SMSQuickSendResponse":
+        """
+        Legacy method for sending SMS (backward compatibility).
+
+        Args:
+            to: The recipient's phone number in E.164 format
+            body: The message body text
+            from_: The sender's phone number (optional)
+            **kwargs: Additional parameters (ignored for compatibility)
+
+        Returns:
+            SMSQuickSendResponse: The sent message details
+
+        Note:
+            This method is deprecated. Use send_sms() instead.
+        """
+        if not from_:
+            raise DevoValidationException("Sender (from_) is required for SMS sending")
+
+        return self.send_sms(
+            recipient=to,
+            message=body,
+            sender=from_,
+            hirvalidation=kwargs.get("hirvalidation", True),
+        )
+
+    def get(self, message_id: str) -> dict:
+        """
+        Legacy method for getting message details (backward compatibility).
+
+        Args:
+            message_id: The message ID
+
+        Returns:
+            dict: Message details
+
+        Note:
+            This method provides basic compatibility but may not return
+            the full SMSMessage model structure.
+        """
+        # This would need to be implemented based on a separate API endpoint
+        # if available, or could be removed if not supported by the API
+        raise NotImplementedError(
+            "Message retrieval by ID is not supported by the current API. "
+            "Use send_sms() to get message details upon sending."
+        )
+
+    def list(self, **kwargs) -> List[dict]:
+        """
+        Legacy method for listing messages (backward compatibility).
+
+        Returns:
+            List[dict]: List of messages
+
+        Note:
+            This method provides basic compatibility but may not return
+            the full message structure. Consider using get_senders() or
+            get_available_numbers() for current functionality.
+        """
+        # This would need to be implemented based on a separate API endpoint
+        # if available, or could be removed if not supported by the API
+        raise NotImplementedError(
+            "Message listing is not supported by the current API. "
+            "Use get_senders() or get_available_numbers() instead."
+        )
+
+    def cancel(self, message_id: str) -> dict:
+        """
+        Legacy method for canceling messages (backward compatibility).
+
+        Args:
+            message_id: The message ID to cancel
+
+        Returns:
+            dict: Cancellation result
+
+        Note:
+            This method provides basic compatibility but may not be
+            supported by the current API.
+        """
+        # This would need to be implemented based on a separate API endpoint
+        # if available, or could be removed if not supported by the API
+        raise NotImplementedError("Message cancellation is not supported by the current API.")
