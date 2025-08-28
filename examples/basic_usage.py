@@ -37,8 +37,12 @@ def main():
         resources.append(("💬 WhatsApp", "Placeholder", "whatsapp_example.py"))
     if hasattr(client, "contacts"):
         resources.append(("👥 Contacts", "Placeholder", "contacts_example.py"))
+    if hasattr(client, "contact_groups"):
+        resources.append(("🗂️  Contact Groups", "Implemented", "contact_groups_example.py"))
     if hasattr(client, "rcs"):
         resources.append(("🎴 RCS", "Placeholder", "rcs_example.py"))
+    if hasattr(client, "messages"):
+        resources.append(("📬 Messages", "Implemented", "omni_channel_example.py"))
 
     for resource, status, example_file in resources:
         print(f"   {resource:<12} - {status:<12} -> {example_file}")
@@ -66,11 +70,13 @@ def main():
     print("\n💡 Getting Started:")
     print("-" * 30)
     print("1. Run individual resource examples:")
-    print("   python examples/sms_example.py         # Complete SMS functionality")
-    print("   python examples/email_example.py       # Email examples (placeholder)")
-    print("   python examples/whatsapp_example.py    # WhatsApp examples (placeholder)")
-    print("   python examples/contacts_example.py    # Contact management (placeholder)")
-    print("   python examples/rcs_example.py         # RCS examples (placeholder)")
+    print("   python examples/sms_example.py              # Complete SMS functionality")
+    print("   python examples/contact_groups_example.py   # Complete Contact Groups functionality")
+    print("   python examples/omni_channel_example.py     # Complete Omni-channel messaging")
+    print("   python examples/email_example.py            # Email examples (placeholder)")
+    print("   python examples/whatsapp_example.py         # WhatsApp examples (placeholder)")
+    print("   python examples/contacts_example.py         # Contact management (placeholder)")
+    print("   python examples/rcs_example.py              # RCS examples (placeholder)")
     print()
     print("2. Quick SMS example:")
     print("   from devo_global_comms_python import DevoClient")
@@ -86,20 +92,24 @@ def main():
     print("-" * 30)
     print("Would you like to run a specific example?")
     print("1. SMS Example (full functionality)")
-    print("2. Email Example (placeholder)")
-    print("3. WhatsApp Example (placeholder)")
-    print("4. Contacts Example (placeholder)")
-    print("5. RCS Example (placeholder)")
+    print("2. Contact Groups Example (full functionality)")
+    print("3. Omni-channel Messaging Example (full functionality)")
+    print("4. Email Example (placeholder)")
+    print("5. WhatsApp Example (placeholder)")
+    print("6. Contacts Example (placeholder)")
+    print("7. RCS Example (placeholder)")
     print("0. Exit")
 
     try:
-        choice = input("\nEnter your choice (0-5): ").strip()
+        choice = input("\nEnter your choice (0-7): ").strip()
         example_files = {
             "1": "sms_example.py",
-            "2": "email_example.py",
-            "3": "whatsapp_example.py",
-            "4": "contacts_example.py",
-            "5": "rcs_example.py",
+            "2": "contact_groups_example.py",
+            "3": "omni_channel_example.py",
+            "4": "email_example.py",
+            "5": "whatsapp_example.py",
+            "6": "contacts_example.py",
+            "7": "rcs_example.py",
         }
 
         if choice in example_files:

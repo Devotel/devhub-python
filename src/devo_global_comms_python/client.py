@@ -6,6 +6,7 @@ from urllib3.util.retry import Retry
 
 from .auth import APIKeyAuth
 from .exceptions import DevoAPIException, DevoAuthenticationException, DevoException, DevoMissingAPIKeyException
+from .resources.contact_groups import ContactGroupsResource
 from .resources.contacts import ContactsResource
 from .resources.email import EmailResource
 from .resources.messages import MessagesResource
@@ -87,6 +88,7 @@ class DevoClient:
         self.whatsapp = WhatsAppResource(self)
         self.rcs = RCSResource(self)
         self.contacts = ContactsResource(self)
+        self.contact_groups = ContactGroupsResource(self)
         self.messages = MessagesResource(self)
 
     def _create_session(self, max_retries: int) -> requests.Session:
