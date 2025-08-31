@@ -17,7 +17,7 @@ class RCSResource(BaseResource):
 
         from ..models.rcs import RcsAccountSerializer
 
-        return RcsAccountSerializer.parse_obj(response.json())
+        return RcsAccountSerializer.model_validate(response.json())
 
     def get_accounts(
         self,
@@ -65,7 +65,7 @@ class RCSResource(BaseResource):
 
         from ..models.rcs import SuccessSerializer
 
-        return SuccessSerializer.parse_obj(response.json())
+        return SuccessSerializer.model_validate(response.json())
 
     def update_account(self, account_id: str, account_data: Dict[str, Any]) -> Dict[str, Any]:
         """Update RCS Account."""
@@ -86,7 +86,7 @@ class RCSResource(BaseResource):
 
         from ..models.rcs import RcsSendMessageSerializer
 
-        return RcsSendMessageSerializer.parse_obj(response.json())
+        return RcsSendMessageSerializer.model_validate(response.json())
 
     def list_messages(
         self,
@@ -113,7 +113,7 @@ class RCSResource(BaseResource):
 
         from ..models.rcs import RcsSendMessageSerializer
 
-        return [RcsSendMessageSerializer.parse_obj(message) for message in response.json()]
+        return [RcsSendMessageSerializer.model_validate(message) for message in response.json()]
 
     # Template Management Endpoints
     def create_template(self, template_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -238,7 +238,7 @@ class RCSResource(BaseResource):
 
         from ..models.rcs import RCSMessage
 
-        return RCSMessage.parse_obj(response.json())
+        return RCSMessage.model_validate(response.json())
 
     def send_rich_card(
         self,
@@ -277,7 +277,7 @@ class RCSResource(BaseResource):
 
         from ..models.rcs import RCSMessage
 
-        return RCSMessage.parse_obj(response.json())
+        return RCSMessage.model_validate(response.json())
 
     def get(self, message_id: str) -> "RCSMessage":
         """Retrieve an RCS message by ID."""
@@ -286,4 +286,4 @@ class RCSResource(BaseResource):
 
         from ..models.rcs import RCSMessage
 
-        return RCSMessage.parse_obj(response.json())
+        return RCSMessage.model_validate(response.json())

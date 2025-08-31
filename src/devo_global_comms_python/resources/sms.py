@@ -1,9 +1,3 @@
-"""
-SMS resource for the Devo Global Communications API.
-
-Implements SMS API endpoints for sending messages and managing phone numbers.
-"""
-
 import logging
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Optional
@@ -113,7 +107,7 @@ class SMSResource(BaseResource):
         # Parse response according to API spec
         from ..models.sms import SMSQuickSendResponse
 
-        result = SMSQuickSendResponse.parse_obj(response.json())
+        result = SMSQuickSendResponse.model_validate(response.json())
         logger.info(f"SMS sent successfully with ID: {result.id}")
 
         return result
@@ -142,7 +136,7 @@ class SMSResource(BaseResource):
         # Parse response according to API spec
         from ..models.sms import SendersListResponse
 
-        result = SendersListResponse.parse_obj(response.json())
+        result = SendersListResponse.model_validate(response.json())
         logger.info(f"Retrieved {len(result.senders)} senders")
 
         return result
@@ -219,7 +213,7 @@ class SMSResource(BaseResource):
         # Parse response according to API spec
         from ..models.sms import NumberPurchaseResponse
 
-        result = NumberPurchaseResponse.parse_obj(response.json())
+        result = NumberPurchaseResponse.model_validate(response.json())
         feature_count = len(result.features) if result.features else 0
         logger.info(f"Number purchased successfully with {feature_count} features")
 
@@ -291,7 +285,7 @@ class SMSResource(BaseResource):
             result = AvailableNumbersResponse.parse_from_list(response_data)
         else:
             # Fallback to normal parsing if API changes
-            result = AvailableNumbersResponse.parse_obj(response_data)
+            result = AvailableNumbersResponse.model_validate(response_data)
 
         logger.info(f"Retrieved {len(result.numbers)} available numbers")
 
@@ -323,61 +317,3 @@ class SMSResource(BaseResource):
             sender=from_,
             hirvalidation=kwargs.get("hirvalidation", True),
         )
-
-    def get(self, message_id: str) -> dict:
-        """
-        Legacy method for getting message details (backward compatibility).
-
-        Args:
-            message_id: The message ID
-
-        Returns:
-            dict: Message details
-
-        Note:
-            This method provides basic compatibility but may not return
-            the full SMSMessage model structure.
-        """
-        # This would need to be implemented based on a separate API endpoint
-        # if available, or could be removed if not supported by the API
-        raise NotImplementedError(
-            "Message retrieval by ID is not supported by the current API. "
-            "Use send_sms() to get message details upon sending."
-        )
-
-    def list(self, **kwargs) -> List[dict]:
-        """
-        Legacy method for listing messages (backward compatibility).
-
-        Returns:
-            List[dict]: List of messages
-
-        Note:
-            This method provides basic compatibility but may not return
-            the full message structure. Consider using get_senders() or
-            get_available_numbers() for current functionality.
-        """
-        # This would need to be implemented based on a separate API endpoint
-        # if available, or could be removed if not supported by the API
-        raise NotImplementedError(
-            "Message listing is not supported by the current API. "
-            "Use get_senders() or get_available_numbers() instead."
-        )
-
-    def cancel(self, message_id: str) -> dict:
-        """
-        Legacy method for canceling messages (backward compatibility).
-
-        Args:
-            message_id: The message ID to cancel
-
-        Returns:
-            dict: Cancellation result
-
-        Note:
-            This method provides basic compatibility but may not be
-            supported by the current API.
-        """
-        # This would need to be implemented based on a separate API endpoint
-        # if available, or could be removed if not supported by the API
-        raise NotImplementedError("Message cancellation is not supported by the current API.")

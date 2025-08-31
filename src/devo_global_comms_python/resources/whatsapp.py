@@ -435,7 +435,7 @@ class WhatsAppResource(BaseResource):
 
         from ..models.whatsapp import WhatsAppMessage
 
-        return WhatsAppMessage.parse_obj(response.json())
+        return WhatsAppMessage.model_validate(response.json())
 
     def send_template(
         self,
@@ -476,7 +476,7 @@ class WhatsAppResource(BaseResource):
 
         from ..models.whatsapp import WhatsAppMessage
 
-        return WhatsAppMessage.parse_obj(response.json())
+        return WhatsAppMessage.model_validate(response.json())
 
     def get(self, message_id: str) -> "WhatsAppMessage":
         """Retrieve a WhatsApp message by ID."""
@@ -485,4 +485,4 @@ class WhatsAppResource(BaseResource):
 
         from ..models.whatsapp import WhatsAppMessage
 
-        return WhatsAppMessage.parse_obj(response.json())
+        return WhatsAppMessage.model_validate(response.json())

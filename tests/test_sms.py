@@ -335,12 +335,8 @@ class TestSMSResource:
             sms_resource.send(to=test_phone_number, body="Hello, World!")
 
     def test_legacy_methods_not_implemented(self, sms_resource):
-        """Test that unsupported legacy methods raise NotImplementedError."""
-        with pytest.raises(NotImplementedError):
-            sms_resource.get("msg_123")
-
-        with pytest.raises(NotImplementedError):
-            sms_resource.list()
-
-        with pytest.raises(NotImplementedError):
-            sms_resource.cancel("msg_123")
+        """Test that unsupported legacy methods don't exist."""
+        # These methods were completely removed for cleaner API
+        assert not hasattr(sms_resource, "get")
+        assert not hasattr(sms_resource, "list")
+        assert not hasattr(sms_resource, "cancel")

@@ -97,7 +97,7 @@ class ContactsResource(BaseResource):
 
         from ..models.contacts import GetContactsSerializer
 
-        return GetContactsSerializer.parse_obj(response.json())
+        return GetContactsSerializer.model_validate(response.json())
 
     def create(self, contact_data: "CreateContactDto") -> "ContactSerializer":
         """
@@ -113,7 +113,7 @@ class ContactsResource(BaseResource):
 
         from ..models.contacts import ContactSerializer
 
-        return ContactSerializer.parse_obj(response.json())
+        return ContactSerializer.model_validate(response.json())
 
     def update(self, contact_id: str, contact_data: "UpdateContactDto") -> "ContactSerializer":
         """
@@ -132,7 +132,7 @@ class ContactsResource(BaseResource):
 
         from ..models.contacts import ContactSerializer
 
-        return ContactSerializer.parse_obj(response.json())
+        return ContactSerializer.model_validate(response.json())
 
     def delete_bulk(self, delete_data: "DeleteContactsDto", approve: Optional[str] = None) -> "ContactSerializer":
         """
@@ -153,7 +153,7 @@ class ContactsResource(BaseResource):
 
         from ..models.contacts import ContactSerializer
 
-        return ContactSerializer.parse_obj(response.json())
+        return ContactSerializer.model_validate(response.json())
 
     # Contact Group Management
 
@@ -198,7 +198,7 @@ class ContactsResource(BaseResource):
 
         from ..models.contacts import CreateContactsFromCsvRespDto
 
-        return CreateContactsFromCsvRespDto.parse_obj(response.json())
+        return CreateContactsFromCsvRespDto.model_validate(response.json())
 
     # Custom Fields Management
 
@@ -232,7 +232,7 @@ class ContactsResource(BaseResource):
 
         from ..models.contacts import GetCustomFieldsSerializer
 
-        return GetCustomFieldsSerializer.parse_obj(response.json())
+        return GetCustomFieldsSerializer.model_validate(response.json())
 
     def create_custom_field(self, field_data: "CreateCustomFieldDto") -> "CustomFieldSerializer":
         """
@@ -248,7 +248,7 @@ class ContactsResource(BaseResource):
 
         from ..models.contacts import CustomFieldSerializer
 
-        return CustomFieldSerializer.parse_obj(response.json())
+        return CustomFieldSerializer.model_validate(response.json())
 
     def update_custom_field(self, field_id: str, field_data: "UpdateCustomFieldDto") -> None:
         """
