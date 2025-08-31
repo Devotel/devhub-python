@@ -220,7 +220,8 @@ class SMSResource(BaseResource):
         from ..models.sms import NumberPurchaseResponse
 
         result = NumberPurchaseResponse.parse_obj(response.json())
-        logger.info(f"Number purchased successfully with {len(result.features)} features")
+        feature_count = len(result.features) if result.features else 0
+        logger.info(f"Number purchased successfully with {feature_count} features")
 
         return result
 
@@ -281,10 +282,17 @@ class SMSResource(BaseResource):
         # Send request to the exact API endpoint
         response = self.client.get("user-api/numbers", params=params)
 
-        # Parse response according to API spec
+        # Parse response according to API spec - API returns direct array
         from ..models.sms import AvailableNumbersResponse
 
-        result = AvailableNumbersResponse.parse_obj(response.json())
+        response_data = response.json()
+        if isinstance(response_data, list):
+            # API returns direct array, use custom parser
+            result = AvailableNumbersResponse.parse_from_list(response_data)
+        else:
+            # Fallback to normal parsing if API changes
+            result = AvailableNumbersResponse.parse_obj(response_data)
+
         logger.info(f"Retrieved {len(result.numbers)} available numbers")
 
         return result

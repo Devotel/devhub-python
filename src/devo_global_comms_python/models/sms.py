@@ -43,25 +43,33 @@ class SMSQuickSendResponse(BaseModel):
     Returned from POST /user-api/sms/quick-send
     """
 
-    id: str = Field(..., description="Unique message identifier")
-    user_id: str = Field(..., description="User identifier")
-    tenant_id: str = Field(..., description="Tenant identifier")
-    sender_id: str = Field(..., description="Sender identifier")
-    recipient: str = Field(..., description="Recipient phone number")
-    message: str = Field(..., description="Message content")
-    account_id: str = Field(..., description="Account identifier")
-    account_type: str = Field(..., description="Account type")
-    status: str = Field(..., description="Message status")
-    message_timeline: Dict[str, Any] = Field(default_factory=dict, description="Message timeline events")
-    message_id: str = Field(..., description="Message identifier")
-    bulksmsid: str = Field(..., description="Bulk SMS identifier")
-    sent_date: str = Field(..., description="Date message was sent")
-    direction: str = Field(..., description="Message direction")
-    recipientcontactid: str = Field(..., description="Recipient contact identifier")
-    api_route: str = Field(..., description="API route used")
-    apimode: str = Field(..., description="API mode")
-    quicksendidentifier: str = Field(..., description="Quick send identifier")
-    hirvalidation: bool = Field(..., description="HIR validation enabled")
+    # Success response fields
+    id: Optional[str] = Field(None, description="Unique message identifier")
+    user_id: Optional[str] = Field(None, description="User identifier")
+    tenant_id: Optional[str] = Field(None, description="Tenant identifier")
+    sender_id: Optional[str] = Field(None, description="Sender identifier")
+    recipient: Optional[str] = Field(None, description="Recipient phone number")
+    message: Optional[str] = Field(None, description="Message content")
+    account_id: Optional[str] = Field(None, description="Account identifier")
+    account_type: Optional[str] = Field(None, description="Account type")
+    status: Optional[str] = Field(None, description="Message status")
+    message_timeline: Optional[Dict[str, Any]] = Field(None, description="Message timeline events")
+    message_id: Optional[str] = Field(None, description="Message identifier")
+    bulksmsid: Optional[str] = Field(None, description="Bulk SMS identifier")
+    sent_date: Optional[str] = Field(None, description="Date message was sent")
+    direction: Optional[str] = Field(None, description="Message direction")
+    recipientcontactid: Optional[str] = Field(None, description="Recipient contact identifier")
+    api_route: Optional[str] = Field(None, description="API route used")
+    apimode: Optional[str] = Field(None, description="API mode")
+    quicksendidentifier: Optional[str] = Field(None, description="Quick send identifier")
+    hirvalidation: Optional[bool] = Field(None, description="HIR validation enabled")
+
+    # Error response fields
+    statusCode: Optional[int] = Field(None, description="HTTP status code for errors")
+
+    def is_error(self) -> bool:
+        """Check if this response represents an error."""
+        return self.statusCode is not None and self.statusCode >= 400
 
 
 class SenderInfo(BaseModel):
@@ -69,13 +77,19 @@ class SenderInfo(BaseModel):
     Model for sender information.
     """
 
-    id: str = Field(..., description="Sender identifier")
-    sender_id: str = Field(..., description="Sender ID")
-    gateways_id: str = Field(..., description="Gateway identifier")
-    phone_number: str = Field(..., description="Phone number")
-    number: str = Field(..., description="Number")
-    istest: bool = Field(..., description="Whether this is a test sender")
+    id: Optional[str] = Field(None, description="Sender identifier", alias="_id")
+    sender_id: Optional[str] = Field(None, description="Sender ID")
+    gateways_id: Optional[str] = Field(None, description="Gateway identifier")
+    phone_number: Optional[str] = Field(None, description="Phone number")
+    number: Optional[str] = Field(None, description="Number")
+    istest: Optional[bool] = Field(None, description="Whether this is a test sender")
     type: str = Field(..., description="Sender type")
+
+    # Additional fields found in actual API response
+    name: Optional[str] = Field(None, description="Sender name")
+
+    class Config:
+        allow_population_by_field_name = True
 
 
 class SendersListResponse(BaseModel):
@@ -89,22 +103,48 @@ class SendersListResponse(BaseModel):
 
 
 class RegionInformation(BaseModel):
-    """
-    Model for region information.
-    """
+    """Model for region information."""
 
-    region_type: str = Field(..., description="Type of region")
-    region_name: str = Field(..., description="Name of the region")
+    region_type: Optional[str] = Field(None, description="Type of region")
+    region_name: Optional[str] = Field(None, description="Name of the region")
 
 
 class CostInformation(BaseModel):
-    """
-    Model for cost information.
-    """
+    """Model for cost information."""
 
-    monthly_cost: str = Field(..., description="Monthly cost")
-    setup_cost: str = Field(..., description="Setup cost")
-    currency: str = Field(..., description="Currency code")
+    monthly_cost: Optional[str] = Field(None, description="Monthly cost")
+    setup_cost: Optional[str] = Field(None, description="Setup cost")
+    currency: Optional[str] = Field(None, description="Currency code")
+
+
+class PurchaseFeature(BaseModel):
+    """Model for purchased number features."""
+
+    name: Optional[str] = Field(None, description="Feature name")
+    reservable: Optional[bool] = Field(None, description="Whether feature is reservable")
+    region_id: Optional[str] = Field(None, description="Region ID")
+    number_type: Optional[str] = Field(None, description="Number type")
+    quickship: Optional[bool] = Field(None, description="Quickship availability")
+    region_information: Optional[RegionInformation] = Field(None, description="Region information")
+    phone_number: Optional[str] = Field(None, description="Phone number")
+    cost_information: Optional[CostInformation] = Field(None, description="Cost information")
+    best_effort: Optional[bool] = Field(None, description="Best effort flag")
+    number_provider_type: Optional[str] = Field(None, description="Number provider type")
+
+
+class AvailableNumberFeature(BaseModel):
+    """Model for features available with a number."""
+
+    name: Optional[str] = Field(None, description="Feature name")
+    reservable: Optional[bool] = Field(None, description="Whether feature is reservable")
+    region_id: Optional[str] = Field(None, description="Region ID")
+    number_type: Optional[str] = Field(None, description="Number type")
+    quickship: Optional[bool] = Field(None, description="Quickship availability")
+    region_information: Optional[Any] = Field(None, description="Region information")
+    phone_number: Optional[str] = Field(None, description="Phone number")
+    cost_information: Optional[Any] = Field(None, description="Cost information")
+    best_effort: Optional[bool] = Field(None, description="Best effort flag")
+    number_provider_type: Optional[str] = Field(None, description="Number provider type")
 
 
 class NumberFeature(BaseModel):
@@ -113,15 +153,6 @@ class NumberFeature(BaseModel):
     """
 
     name: str = Field(..., description="Feature name")
-    reservable: bool = Field(..., description="Whether the number is reservable")
-    region_id: str = Field(..., description="Region identifier")
-    number_type: str = Field(..., description="Type of number")
-    quickship: bool = Field(..., description="Whether quickship is available")
-    region_information: RegionInformation = Field(..., description="Region details")
-    phone_number: str = Field(..., description="Phone number")
-    cost_information: CostInformation = Field(..., description="Cost details")
-    best_effort: bool = Field(..., description="Whether this is best effort")
-    number_provider_type: str = Field(..., description="Number provider type")
 
 
 class NumberPurchaseResponse(BaseModel):
@@ -131,15 +162,42 @@ class NumberPurchaseResponse(BaseModel):
     Returned from POST /user-api/numbers/buy
     """
 
-    features: List[NumberFeature] = Field(default_factory=list, description="List of number features")
+    success: Optional[bool] = Field(None, description="Whether the purchase was successful")
+    message: Optional[str | List[str]] = Field(None, description="Response message (can be string or array)")
+    statusCode: Optional[int] = Field(None, description="HTTP status code")
+    features: Optional[List[PurchaseFeature]] = Field(None, description="Features associated with the number")
+    phone_number: Optional[str] = Field(None, description="Purchased phone number")
+    id: Optional[str] = Field(None, alias="_id", description="Unique identifier for the purchased number")
+    # Add other fields as discovered from actual API responses
 
 
+# Legacy/compatibility classes
 class NumberInfo(BaseModel):
     """
-    Model for number information in available numbers response.
+    Legacy model for number information in available numbers response.
+    Kept for backward compatibility.
     """
 
     features: List[NumberFeature] = Field(default_factory=list, description="List of features for this number")
+
+
+class AvailableNumber(BaseModel):
+    """
+    Model for individual available number information.
+    """
+
+    vanity_format: Optional[str] = Field(None, description="Vanity format if applicable")
+    number_provider_type: Optional[Any] = Field(None, description="Number provider type identifier")
+    reservable: Optional[bool] = Field(None, description="Whether the number is reservable")
+    phone_number_type: Optional[str] = Field(None, description="Type of phone number")
+    region_information: Optional[Any] = Field(None, description="Region details")
+    quickship: Optional[bool] = Field(None, description="Whether quickship is available")
+    phone_number: Optional[str] = Field(None, description="Phone number")
+    cost_information: Optional[Any] = Field(None, description="Cost details")
+    record_type: Optional[str] = Field(None, description="Record type")
+    best_effort: Optional[bool] = Field(None, description="Whether this is best effort")
+    features: Optional[List[AvailableNumberFeature]] = Field(None, description="Available features")
+    carrier: Optional[str] = Field(None, description="Carrier name")
 
 
 class AvailableNumbersResponse(BaseModel):
@@ -147,9 +205,25 @@ class AvailableNumbersResponse(BaseModel):
     Response model for available numbers API.
 
     Returned from GET /user-api/numbers
+    Note: The API returns a direct array, not a wrapped object
     """
 
-    numbers: List[NumberInfo] = Field(default_factory=list, description="List of available numbers")
+    def __init__(self, data: List[Dict] = None, **kwargs):
+        """Custom constructor to handle direct array response."""
+        if data is not None and isinstance(data, list):
+            # Convert list of dicts to list of AvailableNumber objects
+            numbers = [AvailableNumber.parse_obj(item) for item in data]
+            super().__init__(numbers=numbers, **kwargs)
+        else:
+            super().__init__(**kwargs)
+
+    numbers: List[AvailableNumber] = Field(default_factory=list, description="List of available numbers")
+
+    @classmethod
+    def parse_from_list(cls, data: List[Dict]) -> "AvailableNumbersResponse":
+        """Parse from direct array response."""
+        numbers = [AvailableNumber.parse_obj(item) for item in data]
+        return cls(numbers=numbers)
 
 
 # Legacy model for backward compatibility

@@ -25,9 +25,7 @@ class DevoException(Exception):
         return self.message
 
 
-# =============================================================================
 # HTTP-Related Exceptions
-# =============================================================================
 
 
 class DevoAPIException(DevoException):
@@ -190,9 +188,7 @@ class DevoGatewayTimeoutException(DevoAPIException):
         super().__init__(message, status_code=504, **kwargs)
 
 
-# =============================================================================
 # Business Logic Exceptions
-# =============================================================================
 
 
 class DevoValidationException(DevoException):
@@ -308,9 +304,7 @@ class DevoChannelNotEnabledException(DevoForbiddenException):
         self.channel = channel
 
 
-# =============================================================================
 # Network Exceptions
-# =============================================================================
 
 
 class DevoNetworkException(DevoException):
@@ -357,9 +351,7 @@ class DevoSSLException(DevoConnectionException):
         super().__init__(message, **kwargs)
 
 
-# =============================================================================
 # Configuration Exceptions
-# =============================================================================
 
 
 class DevoConfigurationException(DevoException):
@@ -395,9 +387,7 @@ class DevoInvalidConfigurationException(DevoConfigurationException):
         self.reason = reason
 
 
-# =============================================================================
 # Exception Factory
-# =============================================================================
 
 
 def create_exception_from_response(response: requests.Response) -> DevoAPIException:

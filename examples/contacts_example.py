@@ -1,135 +1,149 @@
-#!/usr/bin/env python3
 import os
 
 from devo_global_comms_python import DevoClient
 from devo_global_comms_python.exceptions import DevoException
+from devo_global_comms_python.models.contacts import (
+    AssignToContactsGroupDto,
+    CreateContactDto,
+    CreateCustomFieldDto,
+    DeleteContactsDto,
+    UpdateContactDto,
+    UpdateCustomFieldDto,
+)
 
 
 def main():
     api_key = os.getenv("DEVO_API_KEY")
     if not api_key:
-        print("❌ Please set DEVO_API_KEY environment variable")
+        print("Please set DEVO_API_KEY environment variable")
         return
 
-    print("✅ Devo Contacts Client initialized successfully")
+    client = DevoClient(api_key=api_key)
+    print("Devo Global Communications - Contacts Management Example")
     print("=" * 60)
 
     try:
-        # Example 1: Create a contact
-        print("👤 CREATE CONTACT EXAMPLE")
+        # Example 1: List existing contacts
+        print("1. LIST CONTACTS")
+        print("-" * 30)
+        contacts_response = client.services.contacts.list(page=1, limit=5)
+        print(f"Found {contacts_response.total} total contacts")
+        print(f"Page: {contacts_response.page}/{contacts_response.total_pages}")
+        print(f"Showing: {len(contacts_response.contacts)} contacts")
+
+        for i, contact in enumerate(contacts_response.contacts, 1):
+            name = f"{contact.first_name or ''} {contact.last_name or ''}".strip()
+            print(f"  {i}. {name or 'Unnamed Contact'}")
+            print(f"     ID: {contact.id}")
+            if contact.email:
+                print(f"     Email: {contact.email}")
+            if contact.phone_number:
+                print(f"     Phone: {contact.phone_number}")
+            if contact.company:
+                print(f"     Company: {contact.company}")
+
+        # Example 2: Create a new contact
+        print("\n2. CREATE CONTACT")
+        print("-" * 30)
+        create_data = CreateContactDto(
+            first_name="John",
+            last_name="Doe",
+            email="john.doe@example.com",
+            phone_number="+1234567890",
+            company="Acme Corp",
+            tags=["customer", "test"],
+            metadata={"source": "sdk_example", "campaign": "Q1_2025"},
+        )
+
+        new_contact = client.services.contacts.create(create_data)
+        print("Contact created successfully!")
+        print(f"ID: {new_contact.id}")
+        print(f"Name: {new_contact.first_name} {new_contact.last_name}")
+        print(f"Email: {new_contact.email}")
+        print(f"Phone: {new_contact.phone_number}")
+
+        # Example 3: Update the contact
+        print("\n3. UPDATE CONTACT")
+        print("-" * 30)
+        update_data = UpdateContactDto(
+            company="Acme Corporation Ltd",
+            tags=["customer", "vip", "updated"],
+            metadata={"source": "sdk_example", "updated": "2025-08-31"},
+        )
+
+        updated_contact = client.services.contacts.update(new_contact.id, update_data)
+        print("Contact updated successfully!")
+        print(f"ID: {updated_contact.id}")
+        print(f"Updated company: {updated_contact.company}")
+        print(f"Updated tags: {updated_contact.tags}")
+
+        # Example 4: List contacts with filtering
+        print("\n4. LIST CONTACTS WITH FILTERING")
+        print("-" * 30)
+        filtered_contacts = client.services.contacts.list(
+            page=1, limit=10, search="Acme", is_email_subscribed=True, tags=["customer"]
+        )
+        print(f"Found {filtered_contacts.total} contacts matching filters")
+        for contact in filtered_contacts.contacts:
+            name = f"{contact.first_name or ''} {contact.last_name or ''}".strip()
+            print(f"  - {name or 'Unnamed'} ({contact.company or 'No Company'})")
+
+        # Example 5: Custom fields management
+        print("\n5. CUSTOM FIELDS MANAGEMENT")
         print("-" * 30)
 
-        print("📝 Creating a new contact...")
-        print("⚠️  This is a placeholder implementation.")
-        print("   Update this example when Contacts API is implemented.")
+        # List existing custom fields
+        custom_fields = client.services.contacts.list_custom_fields(page=1, limit=5)
+        print(f"Found {custom_fields.total} custom fields")
 
-        # Placeholder contact creation - update when implementing Contacts resource
-        print("   ```python")
-        print("   contact = client.contacts.create(")
-        print("       phone_number='+1234567890',")
-        print("       email='john.doe@example.com',")
-        print("       first_name='John',")
-        print("       last_name='Doe',")
-        print("       company='Acme Corp',")
-        print("       metadata={'source': 'sdk_example', 'campaign': 'Q1_2025'}")
-        print("   )")
-        print("   print(f'Contact created! ID: {contact.id}')")
-        print("   ```")
+        # Create a new custom field
+        field_data = CreateCustomFieldDto(
+            name="Department", field_type="text", description="Employee department", is_required=False
+        )
 
-        # Example 2: Get contact by ID
-        print("\n🔍 GET CONTACT EXAMPLE")
+        new_field = client.services.contacts.create_custom_field(field_data)
+        print(f"Custom field created: {new_field.name} (ID: {new_field.id})")
+
+        # Update the custom field
+        update_field_data = UpdateCustomFieldDto(description="Employee department (updated)", is_required=True)
+
+        client.services.contacts.update_custom_field(new_field.id, update_field_data)
+        print("Custom field updated successfully")
+
+        # Example 6: Contact group assignment
+        print("\n6. CONTACT GROUP ASSIGNMENT")
         print("-" * 30)
 
-        print("📖 Retrieving contact by ID...")
-        print("   ```python")
-        print("   contact = client.contacts.get('contact_id_123')")
-        print("   print(f'Contact: {contact.first_name} {contact.last_name}')")
-        print("   print(f'Phone: {contact.phone_number}')")
-        print("   print(f'Email: {contact.email}')")
-        print("   ```")
+        # List contact groups first
+        contact_groups = client.services.contact_groups.list(page=1, limit=5)
+        if contact_groups.groups:
+            first_group = contact_groups.groups[0]
+            print(f"Found contact group: {first_group.name} (ID: {first_group.id})")
 
-        # Example 3: List contacts
-        print("\n📋 LIST CONTACTS EXAMPLE")
+            # Assign contact to group
+            assignment_data = AssignToContactsGroupDto(contact_ids=[new_contact.id], contacts_group_id=first_group.id)
+
+            client.services.contacts.assign_to_group(assignment_data)
+            print(f"Contact assigned to group: {first_group.name}")
+
+            # Unassign contact from group
+            client.services.contacts.unassign_from_group(assignment_data)
+            print(f"Contact unassigned from group: {first_group.name}")
+        else:
+            print("No contact groups available for assignment demo")
+
+        # Example 7: Delete the test contact
+        print("\n7. DELETE CONTACT")
         print("-" * 30)
+        delete_data = DeleteContactsDto(contact_ids=[new_contact.id])
 
-        print("📋 Listing contacts...")
-        print("   ```python")
-        print("   contacts = client.contacts.list(")
-        print("       limit=10,")
-        print("       filter_by_company='Acme Corp'")
-        print("   )")
-        print("   print(f'Found {len(contacts)} contacts:')")
-        print("   for contact in contacts:")
-        print("       print(f'  - {contact.first_name} {contact.last_name}')")
-        print("   ```")
-
-        # Example 4: Update contact
-        print("\n✏️ UPDATE CONTACT EXAMPLE")
-        print("-" * 30)
-
-        print("✏️ Updating contact information...")
-        print("   ```python")
-        print("   updated_contact = client.contacts.update(")
-        print("       contact_id='contact_id_123',")
-        print("       company='Acme Corporation',")
-        print("       metadata={'source': 'sdk_example', 'updated': '2025-08-28'}")
-        print("   )")
-        print("   print(f'Contact updated! Company: {updated_contact.company}')")
-        print("   ```")
-
-        # Example 5: Delete contact
-        print("\n🗑️ DELETE CONTACT EXAMPLE")
-        print("-" * 30)
-
-        print("🗑️ Deleting contact...")
-        print("   ```python")
-        print("   client.contacts.delete('contact_id_123')")
-        print("   print('Contact deleted successfully!')")
-        print("   ```")
+        client.services.contacts.delete_bulk(delete_data)
+        print(f"Contact deleted successfully (ID: {new_contact.id})")
 
     except DevoException as e:
-        print(f"❌ Contacts operation failed: {e}")
-
-    print("\n" + "=" * 60)
-    print("📊 CONTACTS EXAMPLE SUMMARY")
-    print("-" * 30)
-    print("⚠️  This is a placeholder example for Contacts functionality.")
-    client = DevoClient(api_key=api_key)
-
-    print("� Devo Global Communications - Contacts Management Example")
-    print("=" * 70)
-    print("📋 Using services namespace: client.services.contacts")
-    print()
-
-    # Example 1: List existing contacts
-    print("\n📋 Listing existing contacts...")
-    try:
-        contacts_list = client.services.contacts.list(page=1, limit=5)
-        print(f"✅ Found {contacts_list.total} total contacts")
-        print(f"   Page: {contacts_list.page}/{contacts_list.total_pages}")
-        print(f"   Showing: {len(contacts_list.contacts)} contacts")
-
-        for i, contact in enumerate(contacts_list.contacts, 1):
-            print(f"   {i}. 👤 {contact.first_name or ''} {contact.last_name or ''}".strip())
-            print(f"      ID: {contact.id}")
-            if contact.email:
-                print(f"      📧 Email: {contact.email}")
-            if contact.phone_number:
-                print(f"      📱 Phone: {contact.phone_number}")
-            if contact.created_at:
-                print(f"      📅 Created: {contact.created_at}")
-
+        print(f"Contacts operation failed: {e}")
     except Exception as e:
-        print(f"❌ Error listing contacts: {str(e)}")
-
-    print("\n🎯 Contacts management demo completed!")
-    print("\nKey Features Available:")
-    print("• ✅ List contacts with advanced filtering")
-    print("• ✅ Create and update contacts")
-    print("• ✅ Contact group assignment/unassignment")
-    print("• ✅ Custom field management")
-    print("• ✅ CSV import functionality")
-    print("• ✅ Bulk operations")
+        print(f"Unexpected error: {e}")
 
 
 if __name__ == "__main__":

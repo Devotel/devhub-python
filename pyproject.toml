@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 authors = [
-    { name = "Devo Team", email = "support@devo.com" },
+    { name = "Devo Team", email = "support@devotel.io" },
 ]
 keywords = ["api", "communication", "sms", "email", "whatsapp", "rcs"]
 classifiers = [
