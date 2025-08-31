@@ -93,7 +93,7 @@ class MessagesResource(BaseResource):
 
         from ..models.messages import Message
 
-        return Message.parse_obj(response.json())
+        return Message.model_validate(response.json())
 
     def list(
         self,
@@ -142,7 +142,7 @@ class MessagesResource(BaseResource):
 
         from ..models.messages import Message
 
-        return [Message.parse_obj(item) for item in data.get("messages", [])]
+        return [Message.model_validate(item) for item in data.get("messages", [])]
 
     def get_delivery_status(self, message_id: str) -> Dict[str, Any]:
         """
@@ -173,4 +173,4 @@ class MessagesResource(BaseResource):
 
         from ..models.messages import Message
 
-        return Message.parse_obj(response.json())
+        return Message.model_validate(response.json())

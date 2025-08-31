@@ -4,6 +4,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from . import __version__
 from .auth import APIKeyAuth
 from .exceptions import DevoAPIException, DevoAuthenticationException, DevoException, DevoMissingAPIKeyException
 from .resources.contacts import ContactsResource
@@ -143,7 +144,7 @@ class DevoClient:
 
         # Prepare headers
         request_headers = {
-            "User-Agent": f"devo-python/{self.__class__.__module__.split('.')[0]}",
+            "User-Agent": f"devo-python-sdk/{__version__}",
             "Accept": "application/json",
         }
         if headers:

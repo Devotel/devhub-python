@@ -212,7 +212,7 @@ class AvailableNumbersResponse(BaseModel):
         """Custom constructor to handle direct array response."""
         if data is not None and isinstance(data, list):
             # Convert list of dicts to list of AvailableNumber objects
-            numbers = [AvailableNumber.parse_obj(item) for item in data]
+            numbers = [AvailableNumber.model_validate(item) for item in data]
             super().__init__(numbers=numbers, **kwargs)
         else:
             super().__init__(**kwargs)
@@ -222,7 +222,7 @@ class AvailableNumbersResponse(BaseModel):
     @classmethod
     def parse_from_list(cls, data: List[Dict]) -> "AvailableNumbersResponse":
         """Parse from direct array response."""
-        numbers = [AvailableNumber.parse_obj(item) for item in data]
+        numbers = [AvailableNumber.model_validate(item) for item in data]
         return cls(numbers=numbers)
 
 
