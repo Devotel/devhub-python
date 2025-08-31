@@ -24,15 +24,21 @@ class EmailSendResponse(BaseModel):
     Response model for email send API.
 
     Returned from POST /api/v1/user-api/email/send
+
+    Can contain either success response or error response fields.
     """
 
-    success: bool = Field(..., description="Whether the email was sent successfully")
-    message_id: str = Field(..., description="Unique message identifier")
-    bulk_email_id: str = Field(..., description="Bulk email identifier")
-    subject: str = Field(..., description="Email subject")
-    status: str = Field(..., description="Message status")
-    message: str = Field(..., description="Status message")
-    timestamp: datetime = Field(..., description="Timestamp of the response")
+    # Success response fields
+    success: Optional[bool] = Field(None, description="Whether the email was sent successfully")
+    message_id: Optional[str] = Field(None, description="Unique message identifier")
+    bulk_email_id: Optional[str] = Field(None, description="Bulk email identifier")
+    subject: Optional[str] = Field(None, description="Email subject")
+    status: Optional[str] = Field(None, description="Message status")
+    timestamp: Optional[datetime] = Field(None, description="Timestamp of the response")
+
+    # Error response fields (also available in success cases)
+    message: Optional[str] = Field(None, description="Status or error message")
+    statusCode: Optional[int] = Field(None, description="HTTP status code")
 
 
 class EmailAttachment(BaseModel):

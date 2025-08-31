@@ -237,13 +237,26 @@ class FileUploadRequest(BaseModel):
 class WhatsAppAccount(BaseModel):
     """WhatsApp account information model."""
 
-    id: str = Field(..., description="Account ID")
-    name: str = Field(..., description="Account name")
+    id: Optional[str] = Field(None, description="Account ID")
+    name: Optional[str] = Field(None, description="Account name")
     email: Optional[str] = Field(None, description="Account email")
     phone: Optional[str] = Field(None, description="Account phone number")
-    is_approved: bool = Field(..., description="Whether the account is approved")
+    is_approved: Optional[bool] = Field(None, description="Whether the account is approved")
     created_at: Optional[datetime] = Field(None, description="Account creation timestamp")
     updated_at: Optional[datetime] = Field(None, description="Account last updated timestamp")
+    # Additional fields that might be present in the API response
+    totalTemplates: Optional[int] = Field(None, description="Total number of templates")
+
+    class Config:
+        populate_by_name = True
+
+    @classmethod
+    def model_validate(cls, obj):
+        # Handle _id -> id mapping for API compatibility
+        if isinstance(obj, dict) and "_id" in obj and "id" not in obj:
+            obj = obj.copy()
+            obj["id"] = obj["_id"]
+        return super().model_validate(obj)
 
 
 class GetWhatsAppAccountsResponse(BaseModel):
@@ -253,11 +266,11 @@ class GetWhatsAppAccountsResponse(BaseModel):
     Returned from GET /api/v1/user-api/whatsapp/accounts
     """
 
-    accounts: List[WhatsAppAccount] = Field(..., description="List of WhatsApp accounts")
-    total: int = Field(..., description="Total number of accounts")
-    page: int = Field(..., description="Current page number")
-    limit: int = Field(..., description="Page size limit")
-    has_next: bool = Field(..., description="Whether there are more pages")
+    accounts: List[WhatsAppAccount] = Field(default_factory=list, description="List of WhatsApp accounts")
+    total: Optional[int] = Field(None, description="Total number of accounts")
+    page: Optional[int] = Field(None, description="Current page number")
+    limit: Optional[int] = Field(None, description="Page size limit")
+    has_next: Optional[bool] = Field(None, description="Whether there are more pages")
 
 
 class WhatsAppTemplate(BaseModel):

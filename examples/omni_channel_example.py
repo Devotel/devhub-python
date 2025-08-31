@@ -16,38 +16,38 @@ def main():
     # Initialize the client
     api_key = os.getenv("DEVO_API_KEY")
     if not api_key:
-        print("❌ Error: DEVO_API_KEY environment variable not set")
+        print("Error: DEVO_API_KEY environment variable not set")
         return
 
     client = DevoClient(api_key=api_key)
 
-    print("🚀 Devo Global Communications - Omni-channel Messaging Example")
+    print("Devo Global Communications - Omni-channel Messaging Example")
     print("=" * 70)
 
     # Example 1: Send SMS Message
-    print("\n📱 Sending SMS Message...")
+    print("\nSending SMS Message...")
     try:
         sms_message = SendMessageDto(
             channel="sms",
             to="+1234567890",
             **{"from": "+0987654321"},  # Use dict unpacking for 'from' field
-            payload={"text": "Hello from Devo! This is an SMS message sent via omni-channel API."},
+            payload={"text": "Hello from Devo! This is an SMS message."},
             callback_url="https://example.com/sms-webhook",
             metadata={"campaign": "omni-demo", "type": "sms"},
         )
 
         sms_result = client.messages.send(sms_message)
-        print("✅ SMS sent successfully!")
+        print("SMS sent successfully!")
         print(f"   Message ID: {sms_result.id}")
         print(f"   Status: {sms_result.status}")
         print(f"   Channel: {sms_result.channel}")
         print(f"   Created: {sms_result.created_at}")
 
     except Exception as e:
-        print(f"❌ SMS Error: {str(e)}")
+        print(f"SMS Error: {str(e)}")
 
     # Example 2: Send Email Message
-    print("\n📧 Sending Email Message...")
+    print("\nSending Email Message...")
     try:
         email_message = SendMessageDto(
             channel="email",
@@ -84,17 +84,17 @@ def main():
         )
 
         email_result = client.messages.send(email_message)
-        print("✅ Email sent successfully!")
+        print("Email sent successfully!")
         print(f"   Message ID: {email_result.id}")
         print(f"   Status: {email_result.status}")
         print(f"   Channel: {email_result.channel}")
         print(f"   Subject: {email_result.content.get('subject', 'N/A')}")
 
     except Exception as e:
-        print(f"❌ Email Error: {str(e)}")
+        print(f"Email Error: {str(e)}")
 
     # Example 3: Send WhatsApp Message
-    print("\n💬 Sending WhatsApp Message...")
+    print("\nSending WhatsApp Message...")
     try:
         whatsapp_message = SendMessageDto(
             channel="whatsapp",
@@ -103,7 +103,7 @@ def main():
                 "type": "text",
                 "text": {
                     "body": (
-                        "🎉 Hello from Devo! This WhatsApp message was sent "
+                        "Hello from Devo! This WhatsApp message was sent "
                         "using our omni-channel API. Pretty cool, right?"
                     )
                 },
@@ -113,16 +113,16 @@ def main():
         )
 
         whatsapp_result = client.messages.send(whatsapp_message)
-        print("✅ WhatsApp message sent successfully!")
+        print("WhatsApp message sent successfully!")
         print(f"   Message ID: {whatsapp_result.id}")
         print(f"   Status: {whatsapp_result.status}")
         print(f"   Channel: {whatsapp_result.channel}")
 
     except Exception as e:
-        print(f"❌ WhatsApp Error: {str(e)}")
+        print(f"WhatsApp Error: {str(e)}")
 
     # Example 4: Send WhatsApp Template Message
-    print("\n📋 Sending WhatsApp Template Message...")
+    print("\nSending WhatsApp Template Message...")
     try:
         whatsapp_template = SendMessageDto(
             channel="whatsapp",
@@ -150,15 +150,15 @@ def main():
         )
 
         template_result = client.messages.send(whatsapp_template)
-        print("✅ WhatsApp template sent successfully!")
+        print("WhatsApp template sent successfully!")
         print(f"   Message ID: {template_result.id}")
         print(f"   Status: {template_result.status}")
 
     except Exception as e:
-        print(f"❌ WhatsApp Template Error: {str(e)}")
+        print(f"WhatsApp Template Error: {str(e)}")
 
     # Example 5: Send RCS Message
-    print("\n💎 Sending RCS Message...")
+    print("\nSending RCS Message...")
     try:
         rcs_message = SendMessageDto(
             channel="rcs",
@@ -190,16 +190,16 @@ def main():
         )
 
         rcs_result = client.messages.send(rcs_message)
-        print("✅ RCS message sent successfully!")
+        print("RCS message sent successfully!")
         print(f"   Message ID: {rcs_result.id}")
         print(f"   Status: {rcs_result.status}")
         print(f"   Channel: {rcs_result.channel}")
 
     except Exception as e:
-        print(f"❌ RCS Error: {str(e)}")
+        print(f"RCS Error: {str(e)}")
 
     # Example 6: Send RCS Rich Card
-    print("\n🎴 Sending RCS Rich Card...")
+    print("\nSending RCS Rich Card...")
     try:
         rcs_rich_card = SendMessageDto(
             channel="rcs",
@@ -238,15 +238,15 @@ def main():
         )
 
         rich_card_result = client.messages.send(rcs_rich_card)
-        print("✅ RCS rich card sent successfully!")
+        print("RCS rich card sent successfully!")
         print(f"   Message ID: {rich_card_result.id}")
         print(f"   Status: {rich_card_result.status}")
 
     except Exception as e:
-        print(f"❌ RCS Rich Card Error: {str(e)}")
+        print(f"RCS Rich Card Error: {str(e)}")
 
     # Example 7: Bulk messaging across channels
-    print("\n📊 Bulk Messaging Demo...")
+    print("\nBulk Messaging Demo...")
     try:
         recipients = [
             {
@@ -292,22 +292,12 @@ def main():
 
             result = client.messages.send(bulk_message)
             bulk_results.append(result)
-            print(f"   ✅ {recipient['channel'].upper()}: {result.id} -> {result.status}")
+            print(f"   {recipient['channel'].upper()}: {result.id} -> {result.status}")
 
-        print(f"📈 Bulk messaging completed! Sent {len(bulk_results)} messages")
+        print(f"Bulk messaging completed! Sent {len(bulk_results)} messages")
 
     except Exception as e:
-        print(f"❌ Bulk Messaging Error: {str(e)}")
-
-    print("\n" + "=" * 70)
-    print("🎯 Omni-channel messaging demo completed!")
-    print("\nKey Benefits:")
-    print("• Unified API for all communication channels")
-    print("• Channel-specific payload flexibility")
-    print("• Consistent response format")
-    print("• Real-time status tracking")
-    print("• Metadata and webhook support")
-    print("• Type-safe models with validation")
+        print(f"Bulk Messaging Error: {str(e)}")
 
 
 def send_notification_example():
@@ -319,7 +309,7 @@ def send_notification_example():
     """
 
     print("\n" + "=" * 50)
-    print("📢 Notification System Example")
+    print("Notification System Example")
     print("=" * 50)
 
     # Simulated user preferences
@@ -370,7 +360,7 @@ def send_notification_example():
 
     api_key = os.getenv("DEVO_API_KEY")
     if not api_key:
-        print("❌ Error: DEVO_API_KEY environment variable not set")
+        print("Error: DEVO_API_KEY environment variable not set")
         return
 
     client = DevoClient(api_key=api_key)
@@ -429,12 +419,12 @@ def send_notification_example():
             )
 
             result = client.messages.send(message)
-            print(f"✅ {user['name']} ({user['channel']}): {result.id} -> {result.status}")
+            print(f"{user['name']} ({user['channel']}): {result.id} -> {result.status}")
 
         except Exception as e:
-            print(f"❌ Failed to notify {user['name']}: {str(e)}")
+            print(f"Failed to notify {user['name']}: {str(e)}")
 
-    print("\n📊 Notification broadcast completed!")
+    print("\nNotification broadcast completed!")
 
 
 if __name__ == "__main__":

@@ -386,7 +386,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Documentation**: [https://devo-global-comms-python.readthedocs.io](https://devo-global-comms-python.readthedocs.io)
 - **Issues**: [GitHub Issues](https://github.com/devotel/devo-global-comms-python/issues)
-- **Email**: [support@devo.com](mailto:support@devo.com)
+- **Email**: [support@devotel.io](mailto:support@devotel.io)
 
 ## Changelog
 

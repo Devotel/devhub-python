@@ -1,10 +1,3 @@
-"""
-Services namespace for organizing service-related resources.
-
-This module provides a namespace for accessing service-related functionality
-such as contact management, contact groups, and other data management services.
-"""
-
 from typing import TYPE_CHECKING
 
 from .resources.contact_groups import ContactGroupsResource
@@ -42,11 +35,6 @@ class ServicesNamespace:
         # Initialize service resources
         self.contact_groups = ContactGroupsResource(client)
         self.contacts = ContactsResource(client)
-
-        # Future service resources will be added here:
-        # self.templates = TemplatesResource(client)
-        # self.analytics = AnalyticsResource(client)
-        # etc.
 
     def __repr__(self) -> str:
         """String representation of the services namespace."""

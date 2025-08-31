@@ -3,7 +3,7 @@ __author__ = "Devo Team"
 __email__ = "support@devotel.io"
 
 from .client import DevoClient
-from .exceptions import (  # Base exceptions; HTTP-related exceptions; Business logic exceptions; Network exceptions; Configuration exceptions
+from .exceptions import (
     DevoAPIException,
     DevoAuthenticationException,
     DevoBadGatewayException,

@@ -13,7 +13,7 @@ class RCSResource(BaseResource):
     # Account Management Endpoints
     def create_account(self, account_data: Dict[str, Any]) -> "RcsAccountSerializer":
         """Submit RCS Account."""
-        response = self.client.post("/api/v1/user-api/rcs/accounts", json=account_data)
+        response = self.client.post("user-api/rcs/accounts", json=account_data)
 
         from ..models.rcs import RcsAccountSerializer
 
@@ -37,11 +37,27 @@ class RCSResource(BaseResource):
         if is_approved is not None:
             params["isApproved"] = is_approved
 
-        response = self.client.get("/api/v1/user-api/rcs/accounts", params=params)
+        response = self.client.get("user-api/rcs/accounts", params=params)
+        data = response.json()
 
+        # If the response contains a nested structure (like {"rcsAccounts": [...]}),
+        # extract the accounts list for backward compatibility
+        if isinstance(data, dict) and "rcsAccounts" in data:
+            accounts_data = data["rcsAccounts"]
+        elif isinstance(data, list):
+            accounts_data = data
+        else:
+            # Fallback - use the data as-is
+            accounts_data = data
+
+        # Ensure we have a list to work with
+        if not isinstance(accounts_data, list):
+            accounts_data = []
+
+        # Parse each account into RcsAccountSerializer objects
         from ..models.rcs import RcsAccountSerializer
 
-        return [RcsAccountSerializer.parse_obj(account) for account in response.json()]
+        return [RcsAccountSerializer.model_validate(account) for account in accounts_data]
 
     def verify_account(self, verification_data: Dict[str, Any]) -> "SuccessSerializer":
         """Verify RCS Account."""
@@ -120,7 +136,7 @@ class RCSResource(BaseResource):
         if id is not None:
             params["id"] = id
 
-        response = self.client.get("/api/v1/user-api/rcs/templates", params=params)
+        response = self.client.get("user-api/rcs/templates", params=params)
         return response.json()
 
     def delete_template(self, delete_data: Dict[str, Any], approve: Optional[str] = None) -> Dict[str, Any]:
@@ -157,7 +173,7 @@ class RCSResource(BaseResource):
         if search is not None:
             params["search"] = search
 
-        response = self.client.get("/api/v1/user-api/rcs/brands", params=params)
+        response = self.client.get("user-api/rcs/brands", params=params)
         return response.json()
 
     def create_brand(self, brand_data: Dict[str, Any]) -> Dict[str, Any]:
