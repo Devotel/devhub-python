@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -163,7 +163,7 @@ class NumberPurchaseResponse(BaseModel):
     """
 
     success: Optional[bool] = Field(None, description="Whether the purchase was successful")
-    message: Optional[str | List[str]] = Field(None, description="Response message (can be string or array)")
+    message: Optional[Union[str, List[str]]] = Field(None, description="Response message (can be string or array)")
     statusCode: Optional[int] = Field(None, description="HTTP status code")
     features: Optional[List[PurchaseFeature]] = Field(None, description="Features associated with the number")
     phone_number: Optional[str] = Field(None, description="Purchased phone number")
