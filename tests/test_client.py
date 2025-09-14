@@ -20,13 +20,12 @@ class TestDevoClient:
 
     def test_client_initialization_with_custom_params(self, api_key):
         """Test client initialization with custom parameters."""
-        base_url = "https://custom.api.com"
         timeout = 60.0
         max_retries = 5
 
-        client = DevoClient(api_key=api_key, base_url=base_url, timeout=timeout, max_retries=max_retries)
+        client = DevoClient(api_key=api_key, timeout=timeout, max_retries=max_retries)
 
-        assert client.base_url == base_url
+        assert client.base_url == DevoClient.DEFAULT_BASE_URL
         assert client.timeout == timeout
 
     def test_client_has_all_resources(self, api_key):

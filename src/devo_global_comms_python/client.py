@@ -55,7 +55,7 @@ class DevoClient:
     def __init__(
         self,
         api_key: str,
-        base_url: Optional[str] = None,
+        sandbox_api_key: Optional[str] = None,
         timeout: float = DEFAULT_TIMEOUT,
         max_retries: int = 3,
         session: Optional[requests.Session] = None,
@@ -65,7 +65,7 @@ class DevoClient:
 
         Args:
             api_key: API key for authentication
-            base_url: Base URL for the API (defaults to production)
+            sandbox_api_key: Optional sandbox API key for testing environments
             timeout: Request timeout in seconds
             max_retries: Maximum number of retries for failed requests
             session: Custom requests session (optional)
@@ -76,7 +76,9 @@ class DevoClient:
         if not api_key or not api_key.strip():
             raise DevoMissingAPIKeyException()
 
-        self.base_url = base_url or self.DEFAULT_BASE_URL
+        self.api_key = api_key.strip()
+        self.sandbox_api_key = sandbox_api_key.strip() if sandbox_api_key else None
+        self.base_url = self.DEFAULT_BASE_URL
         self.timeout = timeout
 
         # Set up authentication
@@ -121,6 +123,7 @@ class DevoClient:
         data: Optional[Dict[str, Any]] = None,
         json: Optional[Dict[str, Any]] = None,
         headers: Optional[Dict[str, str]] = None,
+        sandbox: bool = False,
     ) -> requests.Response:
         """
         Make an authenticated request to the API.
@@ -132,6 +135,7 @@ class DevoClient:
             data: Form data
             json: JSON data
             headers: Additional headers
+            sandbox: Use sandbox API key for this request (default: False)
 
         Returns:
             requests.Response: The API response
@@ -142,6 +146,10 @@ class DevoClient:
         """
         url = f"{self.base_url.rstrip('/')}/{path.lstrip('/')}"
 
+        # Validate sandbox usage
+        if sandbox and not self.sandbox_api_key:
+            raise DevoException("Sandbox API key required when sandbox=True")
+
         # Prepare headers
         request_headers = {
             "User-Agent": f"devo-python-sdk/{__version__}",
@@ -151,7 +159,13 @@ class DevoClient:
             request_headers.update(headers)
 
         # Add authentication headers
-        auth_headers = self.auth.get_headers()
+        if sandbox and self.sandbox_api_key:
+            # Use sandbox API key for this request
+            sandbox_auth = APIKeyAuth(self.sandbox_api_key)
+            auth_headers = sandbox_auth.get_headers()
+        else:
+            # Use regular API key
+            auth_headers = self.auth.get_headers()
         request_headers.update(auth_headers)
 
         try:
