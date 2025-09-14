@@ -57,7 +57,7 @@ class Message(BaseModel):
     Unified message model.
 
     Represents a message from any channel (SMS, Email, WhatsApp, RCS)
-    in the Devo Global Communications API.
+    in the DevHub API.
     """
 
     id: str = Field(..., description="Unique identifier for the message")

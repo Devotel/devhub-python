@@ -1,8 +1,8 @@
-site_name: Devo Global Communications Python SDK
-site_description: Python SDK for Devo Global Communications API
-site_url: https://devotel.github.io/devo-global-comms-python/
-repo_url: https://github.com/devotel/devo-global-comms-python
-repo_name: devotel/devo-global-comms-python
+site_name: DevHub Python SDK
+site_description: Python SDK for DevHub API
+site_url: https://devotel.github.io/devhub-python/
+repo_url: https://github.com/devotel/devhub-python
+repo_name: devotel/devhub-python
 
 theme:
   name: material

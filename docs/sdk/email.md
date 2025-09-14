@@ -41,7 +41,7 @@ Email methods return response objects with fields like:
 ## Error Handling
 
 ```python
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 try:
     email_response = client.email.send_email(

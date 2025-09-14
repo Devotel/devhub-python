@@ -18,7 +18,7 @@ from .services import ServicesNamespace
 
 class DevoClient:
     """
-    Main client for interacting with the Devo Global Communications API.
+    Main client for interacting with the DevHub API.
 
     This client follows a resource-based pattern with two main namespaces:
     - Messaging resources: Direct access to communication channels (SMS, Email, etc.)
@@ -41,7 +41,7 @@ class DevoClient:
         ...     print(f"Group: {group.name}")
         >>>
         >>> # Omni-channel messaging
-        >>> from devo_global_comms_python.models.messages import SendMessageDto
+        >>> from devhub_python.models.messages import SendMessageDto
         >>> message = client.messages.send(SendMessageDto(
         ...     channel="sms",
         ...     to="+1234567890",

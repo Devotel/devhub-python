@@ -55,7 +55,7 @@ for number_info in numbers.numbers:
 ## Error Handling
 
 ```python
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 try:
     sms_response = client.sms.send_sms(

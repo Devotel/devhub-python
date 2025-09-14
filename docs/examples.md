@@ -1,6 +1,6 @@
 # Examples
 
-This page contains practical examples to help you get started with the Devo SDK.
+This page contains practical examples to help you get started with the DevHub SDK.
 
 ## Complete Working Examples
 
@@ -18,12 +18,12 @@ For detailed, working examples of each feature, check out the `examples/` direct
 ### Send the Same Message Across All Channels
 
 ```python
-from devo_global_comms_python import DevoClient
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python import DevoClient
+from devhub_python.exceptions import DevoException
 
 client = DevoClient(api_key="your-api-key")
 recipient = "+1234567890"
-message = "Hello from Devo SDK!"
+message = "Hello from DevHub SDK!"
 
 # Send via SMS
 try:
@@ -62,8 +62,8 @@ except DevoException as e:
 ### Complete Contact Lifecycle
 
 ```python
-from devo_global_comms_python.models.contacts import CreateContactDto, UpdateContactDto
-from devo_global_comms_python.models.contact_groups import CreateContactsGroupDto
+from devhub_python.models.contacts import CreateContactDto, UpdateContactDto
+from devhub_python.models.contact_groups import CreateContactsGroupDto
 
 # 1. Create a contact
 contact_data = CreateContactDto(
@@ -87,7 +87,7 @@ group = client.services.contact_groups.create(group_data)
 print(f"Created group: {group.id}")
 
 # 3. Add contact to group
-from devo_global_comms_python.models.contacts import AssignToContactsGroupDto
+from devhub_python.models.contacts import AssignToContactsGroupDto
 
 assignment = AssignToContactsGroupDto(
     contact_ids=[contact.id],
@@ -112,7 +112,7 @@ print(f"Welcome SMS sent: {welcome_sms.id}")
 
 ```python
 import time
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 def send_message_with_retry(client, recipient, message, max_retries=3):
     """Send a message with retry logic."""
@@ -158,7 +158,7 @@ response = send_message_with_retry(client, "+1234567890", "Important message!")
 
 ```python
 import os
-from devo_global_comms_python import DevoClient
+from devhub_python import DevoClient
 
 # Set environment variables
 # export DEVO_API_KEY="your-api-key"

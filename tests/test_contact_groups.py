@@ -3,15 +3,15 @@ from unittest.mock import Mock
 
 import pytest
 
-from devo_global_comms_python import DevoClient
-from devo_global_comms_python.models.contact_groups import (
+from devhub_python import DevoClient
+from devhub_python.models.contact_groups import (
     ContactsGroup,
     ContactsGroupListResponse,
     CreateContactsGroupDto,
     DeleteContactsGroupsDto,
     UpdateContactsGroupDto,
 )
-from devo_global_comms_python.resources.contact_groups import ContactGroupsResource
+from devhub_python.resources.contact_groups import ContactGroupsResource
 
 
 class TestContactGroupsResource:

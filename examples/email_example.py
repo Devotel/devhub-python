@@ -1,6 +1,6 @@
 import os
 
-from devo_global_comms_python import DevoClient, DevoException
+from devhub_python import DevoClient, DevoException
 
 
 def main():
@@ -21,7 +21,7 @@ def main():
         print("📤 Sending email...")
         email_response = client.email.send_email(
             subject="Test Email from Devo SDK",
-            body="This is a test email sent using the Devo Global Communications Python SDK.",
+            body="This is a test email sent using the DevHub Python SDK.",
             sender="sender@example.com",
             recipient="recipient@example.com",
         )

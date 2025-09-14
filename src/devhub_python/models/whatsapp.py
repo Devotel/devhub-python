@@ -323,7 +323,7 @@ class WhatsAppMessage(BaseModel):
     """
     WhatsApp message model.
 
-    Represents a WhatsApp message sent through the Devo Global Communications API.
+    Represents a WhatsApp message sent through the DevHub API.
     """
 
     id: str = Field(..., description="Unique identifier for the message")

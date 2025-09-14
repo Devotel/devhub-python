@@ -2,8 +2,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from devo_global_comms_python.exceptions import DevoValidationException
-from devo_global_comms_python.resources.whatsapp import WhatsAppResource
+from devhub_python.exceptions import DevoValidationException
+from devhub_python.resources.whatsapp import WhatsAppResource
 
 
 class TestWhatsAppResource:
@@ -434,7 +434,7 @@ class TestWhatsAppResource:
     # Template Tests
     def test_create_template_authentication_success(self, whatsapp_resource):
         """Test creating an authentication template successfully."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             BodyComponent,
             ButtonsComponent,
             FooterComponent,
@@ -494,7 +494,7 @@ class TestWhatsAppResource:
 
     def test_create_template_marketing_with_buttons(self, whatsapp_resource):
         """Test creating a marketing template with various button types."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             BodyComponent,
             ButtonsComponent,
             FooterComponent,
@@ -553,7 +553,7 @@ class TestWhatsAppResource:
 
     def test_create_template_missing_account_id(self, whatsapp_resource):
         """Test template creation with missing account_id."""
-        from devo_global_comms_python.models.whatsapp import BodyComponent, WhatsAppTemplateRequest
+        from devhub_python.models.whatsapp import BodyComponent, WhatsAppTemplateRequest
 
         template_request = WhatsAppTemplateRequest(
             name="test_template",
@@ -648,7 +648,7 @@ class TestWhatsAppResource:
 
     def test_create_template_utility_with_location(self, whatsapp_resource):
         """Test creating a utility template with location header."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             BodyComponent,
             ButtonsComponent,
             FooterComponent,
@@ -694,7 +694,7 @@ class TestWhatsAppResource:
 
     def test_create_template_with_catalog_button(self, whatsapp_resource):
         """Test creating template with catalog button."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             BodyComponent,
             ButtonsComponent,
             CatalogButton,
@@ -738,7 +738,7 @@ class TestWhatsAppResource:
     # Template Message Sending Tests
     def test_send_template_message_authentication_success(self, whatsapp_resource):
         """Test sending an authentication template message."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             TemplateMessageComponent,
             TemplateMessageLanguage,
             TemplateMessageParameter,
@@ -809,7 +809,7 @@ class TestWhatsAppResource:
 
     def test_send_template_message_with_image_header(self, whatsapp_resource):
         """Test sending template message with image header."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             ImageParameter,
             TemplateMessageComponent,
             TemplateMessageLanguage,
@@ -862,7 +862,7 @@ class TestWhatsAppResource:
 
     def test_send_template_message_with_location(self, whatsapp_resource):
         """Test sending template message with location parameter."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             LocationParameter,
             TemplateMessageComponent,
             TemplateMessageLanguage,
@@ -919,7 +919,7 @@ class TestWhatsAppResource:
 
     def test_send_template_message_with_document(self, whatsapp_resource):
         """Test sending template message with document parameter."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             DocumentParameter,
             TemplateMessageComponent,
             TemplateMessageLanguage,
@@ -973,7 +973,7 @@ class TestWhatsAppResource:
 
     def test_send_template_message_with_buttons_payload(self, whatsapp_resource):
         """Test sending template message with button payload parameters."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             TemplateMessageComponent,
             TemplateMessageLanguage,
             TemplateMessageParameter,
@@ -1031,7 +1031,7 @@ class TestWhatsAppResource:
 
     def test_send_template_message_missing_account_id(self, whatsapp_resource):
         """Test template message sending with missing account_id."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             TemplateMessageLanguage,
             TemplateMessageTemplate,
             WhatsAppTemplateMessageRequest,
@@ -1047,7 +1047,7 @@ class TestWhatsAppResource:
 
     def test_send_template_message_catalog_offer(self, whatsapp_resource):
         """Test sending catalog offer template message."""
-        from devo_global_comms_python.models.whatsapp import (
+        from devhub_python.models.whatsapp import (
             TemplateMessageComponent,
             TemplateMessageLanguage,
             TemplateMessageParameter,

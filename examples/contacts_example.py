@@ -1,8 +1,8 @@
 import os
 
-from devo_global_comms_python import DevoClient
-from devo_global_comms_python.exceptions import DevoException
-from devo_global_comms_python.models.contacts import (
+from devhub_python import DevoClient
+from devhub_python.exceptions import DevoException
+from devhub_python.models.contacts import (
     AssignToContactsGroupDto,
     CreateContactDto,
     CreateCustomFieldDto,
@@ -19,7 +19,7 @@ def main():
         return
 
     client = DevoClient(api_key=api_key)
-    print("Devo Global Communications - Contacts Management Example")
+    print("DevHub - Contacts Management Example")
     print("=" * 60)
 
     try:

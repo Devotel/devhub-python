@@ -1,11 +1,11 @@
-# Devo Global Communications Python SDK
+# DevHub Python SDK
 
-[![PyPI version](https://badge.fury.io/py/devo-global-comms-python.svg)](https://badge.fury.io/py/devo-global-comms-python)
-[![Python Support](https://img.shields.io/pypi/pyversions/devo-global-comms-python.svg)](https://pypi.org/project/devo-global-comms-python/)
-[![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://devotel.github.io/devo-global-comms-python/)
+[![PyPI version](https://badge.fury.io/py/devhub-python.svg)](https://badge.fury.io/py/devhub-python)
+[![Python Support](https://img.shields.io/pypi/pyversions/devhub-python.svg)](https://pypi.org/project/devhub-python/)
+[![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://devotel.github.io/devhub-python/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A Python SDK for the Devo Global Communications API, supporting SMS, Email, WhatsApp, RCS, and Contact management.
+A Python SDK for the DevHub API, supporting SMS, Email, WhatsApp, RCS, and Contact management.
 
 ## Features
 
@@ -20,13 +20,13 @@ A Python SDK for the Devo Global Communications API, supporting SMS, Email, What
 ## Installation
 
 ```bash
-pip install devo-global-comms-python
+pip install devhub-python
 ```
 
 ## Quick Start
 
 ```python
-from devo_global_comms_python import DevoClient
+from devhub_python import DevoClient
 
 # Initialize the client
 client = DevoClient(api_key="your-api-key")
@@ -61,7 +61,7 @@ print(f"WhatsApp message sent with ID: {whatsapp_response.id}")
 The SDK uses API key authentication:
 
 ```python
-from devo_global_comms_python import DevoClient
+from devhub_python import DevoClient
 
 client = DevoClient(api_key="your-api-key")
 ```
@@ -83,7 +83,7 @@ You can provide your own `requests.Session` for advanced configuration:
 
 ```python
 import requests
-from devo_global_comms_python import DevoClient
+from devhub_python import DevoClient
 
 session = requests.Session()
 session.proxies = {"https": "https://proxy.example.com:8080"}
@@ -119,8 +119,8 @@ print(f"Status: {sms_response.status}")
 
 ```bash
 # Clone the repository
-git clone https://github.com/devotel/devo-global-comms-python.git
-cd devo-global-comms-python
+git clone https://github.com/devotel/devhub-python.git
+cd devhub-python
 
 # Install development dependencies
 pip install -e ".[dev]"
@@ -136,7 +136,7 @@ pre-commit install
 pytest
 
 # Run with coverage
-pytest --cov=src/devo_global_comms_python
+pytest --cov=src/devhub_python
 
 # Run specific test file
 pytest tests/test_sms.py
@@ -171,8 +171,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- **Documentation**: [https://devotel.github.io/devo-global-comms-python/](https://devotel.github.io/devo-global-comms-python/)
-- **Issues**: [GitHub Issues](https://github.com/devotel/devo-global-comms-python/issues)
+- **Documentation**: [https://devotel.github.io/devhub-python/](https://devotel.github.io/devhub-python/)
+- **Issues**: [GitHub Issues](https://github.com/devotel/devhub-python/issues)
 - **Email**: [support@devotel.io](mailto:support@devotel.io)
 
 ## Changelog
