@@ -15,7 +15,7 @@ class MessagesResource(BaseResource):
     across any channel (SMS, Email, WhatsApp, RCS).
     """
 
-    def send(self, data: "SendMessageDto") -> "SendMessageSerializer":
+    def send(self, data: "SendMessageDto", sandbox: bool = False) -> "SendMessageSerializer":
         """
         Send a message through any channel (omni-channel endpoint).
 

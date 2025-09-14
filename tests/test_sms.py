@@ -66,6 +66,7 @@ class TestSMSResource:
                 "message": "Hello, World!",
                 "hirvalidation": True,
             },
+            sandbox=False,
         )
 
     def test_send_sms_with_invalid_recipient(self, sms_resource):
@@ -125,7 +126,7 @@ class TestSMSResource:
         assert result.senders[1].istest is True
 
         # Verify the API call
-        sms_resource.client.get.assert_called_once_with("user-api/me/senders")
+        sms_resource.client.get.assert_called_once_with("user-api/me/senders", sandbox=False)
 
     def test_buy_number_success(self, sms_resource):
         """Test purchasing a phone number successfully."""

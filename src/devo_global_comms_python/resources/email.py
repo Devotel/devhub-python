@@ -27,6 +27,7 @@ class EmailResource(BaseResource):
         body: str,
         sender: str,
         recipient: str,
+        sandbox: bool = False,
     ) -> "EmailSendResponse":
         """
         Send an email using the exact API specification.
@@ -36,6 +37,7 @@ class EmailResource(BaseResource):
             body: Email body content
             sender: Sender email address
             recipient: Recipient email address
+            sandbox: Use sandbox environment for testing (default: False)
 
         Returns:
             EmailSendResponse: The email send response

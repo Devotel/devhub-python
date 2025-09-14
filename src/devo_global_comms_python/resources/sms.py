@@ -58,6 +58,7 @@ class SMSResource(BaseResource):
         message: str,
         sender: str,
         hirvalidation: bool = True,
+        sandbox: bool = False,
     ) -> "SMSQuickSendResponse":
         """
         Send an SMS message using the quick-send API.
@@ -67,6 +68,7 @@ class SMSResource(BaseResource):
             message: The SMS message content
             sender: The sender phone number or sender ID
             hirvalidation: Enable HIR validation (default: True)
+            sandbox: Use sandbox environment for testing (default: False)
 
         Returns:
             SMSQuickSendResponse: The sent message details including ID and status
@@ -102,7 +104,7 @@ class SMSResource(BaseResource):
         )
 
         # Send request to the exact API endpoint
-        response = self.client.post("user-api/sms/quick-send", json=request_data.dict())
+        response = self.client.post("user-api/sms/quick-send", json=request_data.dict(), sandbox=sandbox)
 
         # Parse response according to API spec
         from ..models.sms import SMSQuickSendResponse
@@ -112,9 +114,12 @@ class SMSResource(BaseResource):
 
         return result
 
-    def get_senders(self) -> "SendersListResponse":
+    def get_senders(self, sandbox: bool = False) -> "SendersListResponse":
         """
         Retrieve the list of available senders for the account.
+
+        Args:
+            sandbox: Use sandbox environment for testing (default: False)
 
         Returns:
             SendersListResponse: List of available senders with their details
@@ -131,7 +136,7 @@ class SMSResource(BaseResource):
         logger.info("Fetching available senders")
 
         # Send request to the exact API endpoint
-        response = self.client.get("user-api/me/senders")
+        response = self.client.get("user-api/me/senders", sandbox=sandbox)
 
         # Parse response according to API spec
         from ..models.sms import SendersListResponse
@@ -151,6 +156,7 @@ class SMSResource(BaseResource):
         is_longcode: bool = True,
         agreement_last_sent_date: Optional[datetime] = None,
         is_automated_enabled: bool = True,
+        sandbox: bool = False,
     ) -> "NumberPurchaseResponse":
         """
         Purchase a phone number.
@@ -164,6 +170,7 @@ class SMSResource(BaseResource):
             is_longcode: Whether this is a long code number (default: True)
             agreement_last_sent_date: Last date agreement was sent (optional)
             is_automated_enabled: Whether automated messages are enabled (default: True)
+            sandbox: Use sandbox environment for testing (default: False)
 
         Returns:
             NumberPurchaseResponse: Details of the purchased number including features
@@ -227,6 +234,7 @@ class SMSResource(BaseResource):
         type: Optional[str] = None,
         prefix: Optional[str] = None,
         region: str = "US",
+        sandbox: bool = False,
     ) -> "AvailableNumbersResponse":
         """
         Get available phone numbers for purchase.
@@ -238,6 +246,7 @@ class SMSResource(BaseResource):
             type: Filter by type (optional)
             prefix: Filter by prefix (optional)
             region: Filter by region (Country ISO Code), default: "US"
+            sandbox: Use sandbox environment for testing (default: False)
 
         Returns:
             AvailableNumbersResponse: List of available numbers with their features
@@ -292,7 +301,9 @@ class SMSResource(BaseResource):
         return result
 
     # Legacy methods for backward compatibility
-    def send(self, to: str, body: str, from_: Optional[str] = None, **kwargs) -> "SMSQuickSendResponse":
+    def send(
+        self, to: str, body: str, from_: Optional[str] = None, sandbox: bool = False, **kwargs
+    ) -> "SMSQuickSendResponse":
         """
         Legacy method for sending SMS (backward compatibility).
 
@@ -300,6 +311,7 @@ class SMSResource(BaseResource):
             to: The recipient's phone number in E.164 format
             body: The message body text
             from_: The sender's phone number (optional)
+            sandbox: Use sandbox environment for testing (default: False)
             **kwargs: Additional parameters (ignored for compatibility)
 
         Returns:

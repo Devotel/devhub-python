@@ -73,7 +73,6 @@ client = DevoClient(api_key="your-api-key")
 ```python
 client = DevoClient(
     api_key="your-api-key",
-    base_url="https://api.devo.com",  # Optional: custom base URL
     timeout=30.0,  # Optional: request timeout
 )
 ```

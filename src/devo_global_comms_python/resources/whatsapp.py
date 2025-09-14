@@ -50,6 +50,7 @@ class WhatsAppResource(BaseResource):
         limit: Optional[int] = None,
         is_approved: Optional[bool] = None,
         search: Optional[str] = None,
+        sandbox: bool = False,
     ) -> "GetWhatsAppAccountsResponse":
         """
         Get all shared WhatsApp accounts.
@@ -92,7 +93,7 @@ class WhatsAppResource(BaseResource):
 
         return GetWhatsAppAccountsResponse.model_validate(response.json())
 
-    def get_template(self, name: str) -> "WhatsAppTemplate":
+    def get_template(self, name: str, sandbox: bool = False) -> "WhatsAppTemplate":
         """
         Get a WhatsApp template by name.
 
@@ -126,6 +127,7 @@ class WhatsAppResource(BaseResource):
         file_content: bytes,
         filename: str,
         content_type: str,
+        sandbox: bool = False,
     ) -> "WhatsAppUploadFileResponse":
         """
         Upload a file for WhatsApp messaging.
@@ -177,6 +179,7 @@ class WhatsAppResource(BaseResource):
         to: str,
         message: str,
         account_id: Optional[str] = None,
+        sandbox: bool = False,
     ) -> "WhatsAppSendMessageResponse":
         """
         Send a normal WhatsApp message.
@@ -228,6 +231,7 @@ class WhatsAppResource(BaseResource):
         self,
         account_id: str,
         template: "WhatsAppTemplateRequest",
+        sandbox: bool = False,
     ) -> "WhatsAppTemplateResponse":
         """
         Create a WhatsApp template.
