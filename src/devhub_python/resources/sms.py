@@ -57,7 +57,7 @@ class SMSResource(BaseResource):
         recipient: str,
         message: str,
         sender: str,
-        hirvalidation: bool = True,
+        hlrvalidation: bool = True,
         sandbox: bool = False,
     ) -> "SMSQuickSendResponse":
         """
@@ -67,7 +67,7 @@ class SMSResource(BaseResource):
             recipient: The recipient's phone number in E.164 format
             message: The SMS message content
             sender: The sender phone number or sender ID
-            hirvalidation: Enable HIR validation (default: True)
+            hlrvalidation: Enable HIR validation (default: True)
             sandbox: Use sandbox environment for testing (default: False)
 
         Returns:
@@ -100,7 +100,7 @@ class SMSResource(BaseResource):
             sender=sender,
             recipient=recipient,
             message=message,
-            hirvalidation=hirvalidation,
+            hlrvalidation=hlrvalidation,
         )
 
         # Send request to the exact API endpoint
@@ -327,5 +327,5 @@ class SMSResource(BaseResource):
             recipient=to,
             message=body,
             sender=from_,
-            hirvalidation=kwargs.get("hirvalidation", True),
+            hlrvalidation=kwargs.get("hlrvalidation", True),
         )
