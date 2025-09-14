@@ -32,7 +32,7 @@ def main():
             recipient=recipient,
             message=message,
             sender=sender,
-            hirvalidation=True,  # Enable high-quality routing validation
+            hlrvalidation=True,  # Enable high-quality routing validation
         )
 
         print("SMS sent successfully!")

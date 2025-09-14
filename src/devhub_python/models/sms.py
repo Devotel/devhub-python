@@ -15,7 +15,7 @@ class SMSQuickSendRequest(BaseModel):
     sender: str = Field(..., description="Sender phone number or ID")
     recipient: str = Field(..., description="Recipient phone number in E.164 format")
     message: str = Field(..., description="SMS message content")
-    hirvalidation: bool = Field(True, description="Enable HIR validation")
+    hlrvalidation: bool = Field(True, description="Enable HIR validation")
 
 
 class NumberPurchaseRequest(BaseModel):
@@ -62,7 +62,7 @@ class SMSQuickSendResponse(BaseModel):
     api_route: Optional[str] = Field(None, description="API route used")
     apimode: Optional[str] = Field(None, description="API mode")
     quicksendidentifier: Optional[str] = Field(None, description="Quick send identifier")
-    hirvalidation: Optional[bool] = Field(None, description="HIR validation enabled")
+    hlrvalidation: Optional[bool] = Field(None, description="HIR validation enabled")
 
     # Error response fields
     statusCode: Optional[int] = Field(None, description="HTTP status code for errors")

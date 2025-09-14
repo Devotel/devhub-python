@@ -51,7 +51,7 @@ docs = [
 
 [project.urls]
 Homepage = "https://github.com/devotel/devhub-python"
-Documentation = "https://devhub-python.readthedocs.io"
+Documentation = "https://devotel.github.io/devhub-python/"
 Repository = "https://github.com/devotel/devhub-python"
 Issues = "https://github.com/devotel/devhub-python/issues"
 

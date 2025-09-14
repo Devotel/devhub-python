@@ -38,7 +38,7 @@ class TestSMSResource:
             "api_route": "user-api/sms/quick-send",
             "apimode": "quick-send",
             "quicksendidentifier": "quick_123",
-            "hirvalidation": True,
+            "hlrvalidation": True,
         }
         sms_resource.client.post.return_value = mock_response
 
@@ -47,7 +47,7 @@ class TestSMSResource:
             recipient=test_phone_number,
             message="Hello, World!",
             sender="+1987654321",
-            hirvalidation=True,
+            hlrvalidation=True,
         )
 
         # Verify the response
@@ -55,7 +55,7 @@ class TestSMSResource:
         assert result.recipient == test_phone_number
         assert result.message == "Hello, World!"
         assert result.status == "queued"
-        assert result.hirvalidation is True
+        assert result.hlrvalidation is True
 
         # Verify the API call
         sms_resource.client.post.assert_called_once_with(
@@ -64,7 +64,7 @@ class TestSMSResource:
                 "sender": "+1987654321",
                 "recipient": test_phone_number,
                 "message": "Hello, World!",
-                "hirvalidation": True,
+                "hlrvalidation": True,
             },
             sandbox=False,
         )
@@ -319,7 +319,7 @@ class TestSMSResource:
             "api_route": "user-api/sms/quick-send",
             "apimode": "quick-send",
             "quicksendidentifier": "quick_123",
-            "hirvalidation": True,
+            "hlrvalidation": True,
         }
         sms_resource.client.post.return_value = mock_response
 
