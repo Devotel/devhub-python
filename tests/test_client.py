@@ -3,8 +3,8 @@ from unittest.mock import Mock, patch
 import pytest
 import requests
 
-from devo_global_comms_python import DevoClient
-from devo_global_comms_python.exceptions import DevoAPIException, DevoAuthenticationException
+from devhub_python import DevoClient
+from devhub_python.exceptions import DevoAPIException, DevoAuthenticationException
 
 
 class TestDevoClient:

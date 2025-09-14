@@ -2,14 +2,9 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from devo_global_comms_python.client import DevoClient
-from devo_global_comms_python.exceptions import DevoInvalidPhoneNumberException, DevoValidationException
-from devo_global_comms_python.models.rcs import (
-    RcsAccountSerializer,
-    RCSMessage,
-    RcsSendMessageSerializer,
-    SuccessSerializer,
-)
+from devhub_python.client import DevoClient
+from devhub_python.exceptions import DevoInvalidPhoneNumberException, DevoValidationException
+from devhub_python.models.rcs import RcsAccountSerializer, RCSMessage, RcsSendMessageSerializer, SuccessSerializer
 
 
 @pytest.fixture

@@ -5,7 +5,7 @@ The Contact Groups resource allows you to organize contacts into groups for easi
 ## Creating Contact Groups
 
 ```python
-from devo_global_comms_python.models.contact_groups import CreateContactsGroupDto
+from devhub_python.models.contact_groups import CreateContactsGroupDto
 
 # Create a contact group
 group_data = CreateContactsGroupDto(
@@ -33,7 +33,7 @@ for group in groups_response.groups:
 ## Updating Contact Groups
 
 ```python
-from devo_global_comms_python.models.contact_groups import UpdateContactsGroupDto
+from devhub_python.models.contact_groups import UpdateContactsGroupDto
 
 # Update a contact group
 update_data = UpdateContactsGroupDto(
@@ -86,7 +86,7 @@ print(f"Found {search_results.total} groups matching 'VIP'")
 ## Deleting Contact Groups
 
 ```python
-from devo_global_comms_python.models.contact_groups import DeleteContactsGroupsDto
+from devhub_python.models.contact_groups import DeleteContactsGroupsDto
 
 # Delete contact groups
 delete_data = DeleteContactsGroupsDto(
@@ -101,7 +101,7 @@ print("Contact group deleted successfully")
 ## Error Handling
 
 ```python
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 try:
     group = client.services.contact_groups.create(group_data)

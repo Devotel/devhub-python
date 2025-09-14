@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, validator
 
 class Contact(BaseModel):
     """
-    Contact model representing a contact in the Devo Global Communications API.
+    Contact model representing a contact in the DevHub API.
     """
 
     id: str = Field(description="Unique identifier for the contact")

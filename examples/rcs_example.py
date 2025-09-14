@@ -1,7 +1,7 @@
 import os
 
-from devo_global_comms_python import DevoClient, DevoException
-from devo_global_comms_python.models.rcs import RcsSendMessageSerializer
+from devhub_python import DevoClient, DevoException
+from devhub_python.models.rcs import RcsSendMessageSerializer
 
 
 def main():

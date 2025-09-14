@@ -1,13 +1,13 @@
 # Quick Start
 
-This guide will help you get started with the Devo Global Communications Python SDK.
+This guide will help you get started with the DevHub Python SDK.
 
 ## Installation
 
 Install the SDK using pip:
 
 ```bash
-pip install devo-global-comms-python
+pip install devhub-python
 ```
 
 ## Authentication
@@ -15,7 +15,7 @@ pip install devo-global-comms-python
 Initialize the client with your API key:
 
 ```python
-from devo_global_comms_python import DevoClient
+from devhub_python import DevoClient
 
 client = DevoClient(api_key="your-api-key")
 ```
@@ -30,7 +30,7 @@ client = DevoClient(api_key="your-api-key")
 ```python
 sms_response = client.sms.send_sms(
     recipient="+1234567890",
-    message="Hello from Devo SDK!",
+    message="Hello from DevHub SDK!",
     sender="+1987654321"
 )
 print(f"SMS sent with ID: {sms_response.id}")
@@ -42,7 +42,7 @@ print(f"SMS sent with ID: {sms_response.id}")
 email_response = client.email.send_email(
     recipient="user@example.com",
     subject="Welcome!",
-    content="Thank you for using Devo SDK.",
+    content="Thank you for using DevHub SDK.",
     sender_email="welcome@example.com"
 )
 print(f"Email sent with ID: {email_response.id}")
@@ -63,7 +63,7 @@ print(f"WhatsApp message sent with ID: {whatsapp_response.id}")
 Always wrap your API calls in try-catch blocks:
 
 ```python
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 try:
     sms_response = client.sms.send_sms(

@@ -30,7 +30,7 @@ print(f"Rich card sent with ID: {rich_card.id}")
 
 ```python
 # Using the general send_message method
-from devo_global_comms_python.models.rcs import RcsSendMessageSerializer
+from devhub_python.models.rcs import RcsSendMessageSerializer
 
 message_data = RcsSendMessageSerializer(
     recipient="+1234567890",
@@ -66,7 +66,7 @@ RCS methods return response objects with fields like:
 ## Error Handling
 
 ```python
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 try:
     message = client.rcs.send_text(

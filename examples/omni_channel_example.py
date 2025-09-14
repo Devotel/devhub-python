@@ -1,8 +1,8 @@
 import os
 from datetime import datetime
 
-from devo_global_comms_python import DevoClient
-from devo_global_comms_python.models.messages import SendMessageDto
+from devhub_python import DevoClient
+from devhub_python.models.messages import SendMessageDto
 
 
 def main():
@@ -21,7 +21,7 @@ def main():
 
     client = DevoClient(api_key=api_key)
 
-    print("Devo Global Communications - Omni-channel Messaging Example")
+    print("DevHub - Omni-channel Messaging Example")
     print("=" * 70)
 
     # Example 1: Send SMS Message
@@ -54,12 +54,12 @@ def main():
             to="recipient@example.com",
             **{"from": "sender@yourcompany.com"},  # Use dict unpacking for 'from' field
             payload={
-                "subject": "Welcome to Devo Global Communications!",
+                "subject": "Welcome to DevHub!",
                 "text": "Hello! This is a plain text email sent via our omni-channel API.",
                 "html": """
                 <html>
                 <body>
-                    <h2>Welcome to Devo Global Communications!</h2>
+                    <h2>Welcome to DevHub!</h2>
                     <p>This is an <strong>HTML email</strong> sent via our omni-channel API.</p>
                     <p>Key features:</p>
                     <ul>
@@ -209,7 +209,7 @@ def main():
                 "rich_card": {
                     "standalone_card": {
                         "card_content": {
-                            "title": "Devo Global Communications",
+                            "title": "DevHub",
                             "description": "Experience the power of omni-channel messaging with our unified API.",
                             "media": {
                                 "height": "TALL",

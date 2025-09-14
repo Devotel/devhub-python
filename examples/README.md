@@ -1,6 +1,6 @@
-# Devo Global Communications SDK - Examples
+# DevHub SDK - Examples
 
-This directory contains comprehensive examples for using the Devo Global Communications SDK. Each resource has its own dedicated example file with detailed demonstrations of the available functionality.
+This directory contains comprehensive examples for using the DevHub SDK. Each resource has its own dedicated example file with detailed demonstrations of the available functionality.
 
 ## 📁 Example Files
 
@@ -96,7 +96,7 @@ The unified messaging resource provides a single API endpoint to send messages t
 
 ### 📝 Example Usage
 ```python
-from devo_global_comms_python.models.messages import SendMessageDto
+from devhub_python.models.messages import SendMessageDto
 
 # Send SMS
 sms_data = SendMessageDto(
@@ -199,7 +199,7 @@ The contact groups resource is fully implemented with all CRUD operations:
 
 ### 📝 Example Usage
 ```python
-from devo_global_comms_python.models.contact_groups import CreateContactsGroupDto
+from devhub_python.models.contact_groups import CreateContactsGroupDto
 
 # Create new contact group (using new services namespace)
 group_data = CreateContactsGroupDto(
@@ -246,7 +246,7 @@ All examples include comprehensive error handling with:
 
 All examples use API key authentication:
 ```python
-from devo_global_comms_python import DevoClient
+from devhub_python import DevoClient
 
 client = DevoClient(api_key="your_api_key_here")
 ```

@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from devo_global_comms_python.exceptions import DevoValidationException
-from devo_global_comms_python.resources.email import EmailResource
+from devhub_python.exceptions import DevoValidationException
+from devhub_python.resources.email import EmailResource
 
 
 class TestEmailResource:

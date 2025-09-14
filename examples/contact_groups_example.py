@@ -1,12 +1,8 @@
 import os
 from datetime import datetime
 
-from devo_global_comms_python import DevoClient
-from devo_global_comms_python.models.contact_groups import (
-    CreateContactsGroupDto,
-    DeleteContactsGroupsDto,
-    UpdateContactsGroupDto,
-)
+from devhub_python import DevoClient
+from devhub_python.models.contact_groups import CreateContactsGroupDto, DeleteContactsGroupsDto, UpdateContactsGroupDto
 
 
 def main():
@@ -18,7 +14,7 @@ def main():
 
     client = DevoClient(api_key=api_key)
 
-    print("Devo Global Communications - Contact Groups Management Example")
+    print("DevHub - Contact Groups Management Example")
     print("=" * 75)
     print("Using services namespace: client.services.contact_groups")
     print()

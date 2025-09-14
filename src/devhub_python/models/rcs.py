@@ -226,7 +226,7 @@ class RCSMessage(BaseModel):
     """
     RCS (Rich Communication Services) message model.
 
-    Represents an RCS message sent through the Devo Global Communications API.
+    Represents an RCS message sent through the DevHub API.
     """
 
     id: str = Field(..., description="Unique identifier for the message")

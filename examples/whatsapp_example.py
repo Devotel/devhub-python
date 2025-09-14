@@ -1,7 +1,7 @@
 import os
 
-from devo_global_comms_python import DevoClient, DevoException
-from devo_global_comms_python.models.whatsapp import (
+from devhub_python import DevoClient, DevoException
+from devhub_python.models.whatsapp import (
     BodyComponent,
     ButtonsComponent,
     FooterComponent,
@@ -305,7 +305,7 @@ def main():
         print("\nWHATSAPP TEMPLATE MESSAGE WITH IMAGE EXAMPLE")
         print("-" * 45)
 
-        from devo_global_comms_python.models.whatsapp import ImageParameter
+        from devhub_python.models.whatsapp import ImageParameter
 
         print("Sending template message with image header...")
 

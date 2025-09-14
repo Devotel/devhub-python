@@ -5,7 +5,7 @@ The Contacts resource allows you to manage contact information through the servi
 ## Creating Contacts
 
 ```python
-from devo_global_comms_python.models.contacts import CreateContactDto
+from devhub_python.models.contacts import CreateContactDto
 
 # Create a contact
 contact_data = CreateContactDto(
@@ -36,7 +36,7 @@ for contact in contacts_response.contacts:
 ## Updating Contacts
 
 ```python
-from devo_global_comms_python.models.contacts import UpdateContactDto
+from devhub_python.models.contacts import UpdateContactDto
 
 # Update a contact
 update_data = UpdateContactDto(
@@ -67,7 +67,7 @@ print(f"Found {filtered_contacts.total} contacts matching filters")
 ### Create Custom Field
 
 ```python
-from devo_global_comms_python.models.contacts import CreateCustomFieldDto
+from devhub_python.models.contacts import CreateCustomFieldDto
 
 field_data = CreateCustomFieldDto(
     name="Department",
@@ -92,7 +92,7 @@ print(f"Found {custom_fields.total} custom fields")
 ### Assign to Group
 
 ```python
-from devo_global_comms_python.models.contacts import AssignToContactsGroupDto
+from devhub_python.models.contacts import AssignToContactsGroupDto
 
 assignment_data = AssignToContactsGroupDto(
     contact_ids=[contact.id],
@@ -113,7 +113,7 @@ print("Contact unassigned from group")
 ## Deleting Contacts
 
 ```python
-from devo_global_comms_python.models.contacts import DeleteContactsDto
+from devhub_python.models.contacts import DeleteContactsDto
 
 # Delete contacts
 delete_data = DeleteContactsDto(contact_ids=[contact.id])
@@ -124,7 +124,7 @@ print("Contact deleted successfully")
 ## Error Handling
 
 ```python
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 try:
     contact = client.services.contacts.create(contact_data)

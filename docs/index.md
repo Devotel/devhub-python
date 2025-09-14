@@ -1,6 +1,6 @@
-# Devo Global Communications Python SDK
+# DevHub Python SDK
 
-A Python SDK for the Devo Global Communications API, supporting SMS, Email, WhatsApp, RCS, and Contact management.
+A Python SDK for the DevHub API, supporting SMS, Email, WhatsApp, RCS, and Contact management.
 
 ## Features
 
@@ -13,13 +13,13 @@ A Python SDK for the Devo Global Communications API, supporting SMS, Email, What
 ## Installation
 
 ```bash
-pip install devo-global-comms-python
+pip install devhub-python
 ```
 
 ## Quick Example
 
 ```python
-from devo_global_comms_python import DevoClient
+from devhub_python import DevoClient
 
 # Initialize the client
 client = DevoClient(api_key="your-api-key")
@@ -39,7 +39,7 @@ Continue to the [Quick Start](quickstart.md) guide to learn how to use the SDK.
 
 ## SDK Overview
 
-The Devo SDK is organized into logical resources:
+The DevHub SDK is organized into logical resources:
 
 | Resource | Purpose | Example Usage |
 |----------|---------|---------------|
@@ -52,5 +52,5 @@ The Devo SDK is organized into logical resources:
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/devotel/devo-global-comms-python/issues)
+- **Issues**: [GitHub Issues](https://github.com/devotel/devhub-python/issues)
 - **Email**: [support@devotel.io](mailto:support@devotel.io)

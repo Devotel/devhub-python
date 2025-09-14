@@ -7,8 +7,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from devo_global_comms_python.client import DevoClient
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.client import DevoClient
+from devhub_python.exceptions import DevoException
 
 
 class TestSandboxFunctionality:
@@ -35,7 +35,7 @@ class TestSandboxFunctionality:
         with pytest.raises(DevoException, match="Sandbox API key required when sandbox=True"):
             client.get("test-endpoint", sandbox=True)
 
-    @patch("devo_global_comms_python.client.requests.Session.request")
+    @patch("devhub_python.client.requests.Session.request")
     def test_sandbox_request_uses_sandbox_api_key(self, mock_request):
         """Test that sandbox request uses sandbox API key for authentication."""
         # Mock successful response
@@ -58,7 +58,7 @@ class TestSandboxFunctionality:
         assert "X-API-Key" in headers
         assert "sandbox-api-key" in headers["X-API-Key"]
 
-    @patch("devo_global_comms_python.client.requests.Session.request")
+    @patch("devhub_python.client.requests.Session.request")
     def test_regular_request_uses_production_api_key(self, mock_request):
         """Test that regular request uses production API key for authentication."""
         # Mock successful response
@@ -81,7 +81,7 @@ class TestSandboxFunctionality:
         assert "X-API-Key" in headers
         assert "production-api-key" in headers["X-API-Key"]
 
-    @patch("devo_global_comms_python.client.requests.Session.request")
+    @patch("devhub_python.client.requests.Session.request")
     def test_sms_resource_sandbox_parameter(self, mock_request):
         """Test that SMS resource functions correctly pass sandbox parameter."""
         # Mock successful response

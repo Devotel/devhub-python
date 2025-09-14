@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "devo-global-comms-python"
+name = "devhub-python"
 version = "0.1.0"
-description = "Python SDK for Devo Global Communications API"
+description = "Python SDK for DevHub API"
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 authors = [
-    { name = "Devo Team", email = "support@devotel.io" },
+    { name = "DevHub Team", email = "support@devotel.io" },
 ]
 keywords = ["api", "communication", "sms", "email", "whatsapp", "rcs"]
 classifiers = [
@@ -50,13 +50,13 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/devotel/devo-global-comms-python"
-Documentation = "https://devo-global-comms-python.readthedocs.io"
-Repository = "https://github.com/devotel/devo-global-comms-python"
-Issues = "https://github.com/devotel/devo-global-comms-python/issues"
+Homepage = "https://github.com/devotel/devhub-python"
+Documentation = "https://devhub-python.readthedocs.io"
+Repository = "https://github.com/devotel/devhub-python"
+Issues = "https://github.com/devotel/devhub-python/issues"
 
 [tool.hatch.version]
-path = "src/devo_global_comms_python/__init__.py"
+path = "src/devhub_python/__init__.py"
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -67,7 +67,7 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/devo_global_comms_python"]
+packages = ["src/devhub_python"]
 
 [tool.hatch.build]
 include = ["src/"]
@@ -130,7 +130,7 @@ python_functions = ["test_*"]
 addopts = [
     "--strict-markers",
     "--strict-config",
-    "--cov=src/devo_global_comms_python",
+    "--cov=src/devhub_python",
     "--cov-report=html",
     "--cov-report=term-missing",
     "--cov-fail-under=80",

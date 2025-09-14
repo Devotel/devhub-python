@@ -1,6 +1,6 @@
 import os
 
-from devo_global_comms_python import DevoClient, DevoException
+from devhub_python import DevoClient, DevoException
 
 
 def main():

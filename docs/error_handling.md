@@ -1,13 +1,13 @@
 # Error Handling
 
-The Devo SDK provides comprehensive error handling to help you build robust applications.
+The DevHub SDK provides comprehensive error handling to help you build robust applications.
 
 ## Exception Types
 
 The SDK uses a hierarchy of exceptions for different error scenarios:
 
 ```python
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 ```
 
 All SDK exceptions inherit from `DevoException`, making it easy to catch any SDK-related error.
@@ -17,7 +17,7 @@ All SDK exceptions inherit from `DevoException`, making it easy to catch any SDK
 ### Simple Try-Catch
 
 ```python
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 try:
     sms_response = client.sms.send_sms(
@@ -81,7 +81,7 @@ except DevoException as e:
 ### Missing Required Fields
 
 ```python
-from devo_global_comms_python.models.contacts import CreateContactDto
+from devhub_python.models.contacts import CreateContactDto
 
 try:
     # Missing required data
@@ -97,7 +97,7 @@ except DevoException as e:
 
 ```python
 import time
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 def send_with_retry(client, recipient, message, max_retries=3):
     for attempt in range(max_retries):
@@ -122,7 +122,7 @@ def send_with_retry(client, recipient, message, max_retries=3):
 ```python
 import time
 import random
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 def send_with_backoff(client, recipient, message, max_retries=3):
     for attempt in range(max_retries):
@@ -148,7 +148,7 @@ def send_with_backoff(client, recipient, message, max_retries=3):
 ### Fallback to Alternative Channels
 
 ```python
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 def send_message_with_fallback(client, recipient, message):
     """Try SMS first, fallback to WhatsApp if SMS fails."""
@@ -191,7 +191,7 @@ except DevoException as e:
 
 ```python
 import logging
-from devo_global_comms_python.exceptions import DevoException
+from devhub_python.exceptions import DevoException
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

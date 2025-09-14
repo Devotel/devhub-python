@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from devo_global_comms_python.exceptions import DevoValidationException
-from devo_global_comms_python.resources.sms import SMSResource
+from devhub_python.exceptions import DevoValidationException
+from devhub_python.resources.sms import SMSResource
 
 
 class TestSMSResource:

@@ -48,7 +48,7 @@ jobs:
 
     - name: Test with pytest
       run: |
-        pytest --cov=src/devo_global_comms_python --cov-report=xml --cov-report=html
+        pytest --cov=src/devhub_python --cov-report=xml --cov-report=html
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3

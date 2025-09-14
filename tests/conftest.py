@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from devo_global_comms_python import DevoClient
+from devhub_python import DevoClient
 
 
 @pytest.fixture

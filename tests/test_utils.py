@@ -2,12 +2,8 @@ from datetime import datetime
 
 import pytest
 
-from devo_global_comms_python.exceptions import (
-    DevoInvalidEmailException,
-    DevoInvalidPhoneNumberException,
-    DevoValidationException,
-)
-from devo_global_comms_python.utils import (
+from devhub_python.exceptions import DevoInvalidEmailException, DevoInvalidPhoneNumberException, DevoValidationException
+from devhub_python.utils import (
     format_datetime,
     parse_webhook_signature,
     validate_email,
